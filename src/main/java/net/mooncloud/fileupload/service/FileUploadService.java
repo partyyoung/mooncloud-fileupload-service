@@ -1,16 +1,14 @@
 package net.mooncloud.fileupload.service;
 
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Service;
-import org.springframework.util.Assert;
 import org.springframework.web.multipart.MultipartFile;
 
 @Service
@@ -24,8 +22,14 @@ public class FileUploadService {
 	}
 
 	public Object uploadFile(MultipartFile multipartFile, String path) throws IOException {
+
+		Long start = System.currentTimeMillis();
+		Map<String, Object> ret = new HashMap<String, Object>();
+		ret.put("start", start);
+		ret.put("originalFilename", multipartFile.getOriginalFilename());
+		ret.put("contentType", multipartFile.getContentType());
 		String fileName = multipartFile.getOriginalFilename();
-		InputStream inputStream = multipartFile.getInputStream();
+		// InputStream inputStream = multipartFile.getInputStream();
 
 		if (path.endsWith("/")) {
 			path = path.substring(0, path.length() - 1);
@@ -36,16 +40,21 @@ public class FileUploadService {
 			file.getParentFile().mkdirs();
 		}
 
-		LOGGER.info(file.getAbsolutePath());
+		multipartFile.transferTo(file);
 
-		OutputStream outputStream = new FileOutputStream(file);
-		byte[] buff = new byte[8192];
-		int c = -1;
-		while ((c = inputStream.read(buff)) != -1) {
-			outputStream.write(buff, 0, c);
-		}
-		outputStream.close();
-		return file.getAbsolutePath();
+		// OutputStream outputStream = new FileOutputStream(file);
+		// byte[] buff = new byte[8192];
+		// int c = -1;
+		// while ((c = inputStream.read(buff)) != -1) {
+		// outputStream.write(buff, 0, c);
+		// }
+		// outputStream.close();
+
+		Long end = System.currentTimeMillis();
+		ret.put("end", end);
+		ret.put("taken", end - start);
+		ret.put("file", file.getAbsolutePath());
+		return ret;
 	}
 
 	private String fileUploadPath;
