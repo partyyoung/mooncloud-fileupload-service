@@ -17,11 +17,18 @@ public class FileUploadService {
 
 	private final static Logger LOGGER = LoggerFactory.getLogger(FileUploadService.class);
 
-	public Object uploadFile(MultipartFile multipartFile) throws IOException {
+	public Map<String, Object> uploadFile(MultipartFile multipartFile) throws IOException {
 		return uploadFile(multipartFile, fileUploadPath);
 	}
 
-	public Object uploadFile(MultipartFile multipartFile, String path) throws IOException {
+	public Map<String, Object> uploadFileToHttp(MultipartFile multipartFile, String path) throws IOException {
+		Map<String, Object> ret = uploadFile(multipartFile, fileHttpRoot + "/" + path);
+		ret.put("url", fileHttpUrl
+				+ ("/" + ret.get("file").toString().replaceFirst(fileHttpRoot, "")).replaceFirst("//", "/"));
+		return ret;
+	}
+
+	public Map<String, Object> uploadFile(MultipartFile multipartFile, String path) throws IOException {
 
 		Long start = System.currentTimeMillis();
 		Map<String, Object> ret = new HashMap<String, Object>();
@@ -31,7 +38,7 @@ public class FileUploadService {
 		String fileName = multipartFile.getOriginalFilename();
 		// InputStream inputStream = multipartFile.getInputStream();
 
-		if (path.endsWith("/")) {
+		while (path.endsWith("/")) {
 			path = path.substring(0, path.length() - 1);
 		}
 
@@ -65,6 +72,26 @@ public class FileUploadService {
 
 	public void setFileUploadPath(String fileUploadPath) {
 		this.fileUploadPath = fileUploadPath;
+	}
+
+	private String fileHttpRoot;
+
+	public String getFileHttpRoot() {
+		return fileHttpRoot;
+	}
+
+	public void setFileHttpRoot(String fileHttpRoot) {
+		this.fileHttpRoot = fileHttpRoot;
+	}
+
+	private String fileHttpUrl;
+
+	public String getFileHttpUrl() {
+		return fileHttpUrl;
+	}
+
+	public void setFileHttpUrl(String fileHttpUrl) {
+		this.fileHttpUrl = fileHttpUrl;
 	}
 
 }

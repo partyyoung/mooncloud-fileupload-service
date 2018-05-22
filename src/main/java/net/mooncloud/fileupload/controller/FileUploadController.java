@@ -53,4 +53,22 @@ public class FileUploadController {
 		LOGGER.info(JSON.toJSONString(mooncloudResponse));
 		return mooncloudResponse;
 	}
+
+	@RequestMapping(value = "/upload2http", method = RequestMethod.POST)
+	public Object uploadFileToHttp(MultipartFile file, String path) {
+		MooncloudResponse mooncloudResponse = new MooncloudResponse();
+		try {
+			Assert.isTrue(file == null || !file.isEmpty(), "文件为空");
+			path = path == null ? "" : path;
+			mooncloudResponse.setBody(fileUploadService.uploadFileToHttp(file, path));
+		} catch (IllegalArgumentException e) {
+			mooncloudResponse.setErrorCode(MooncloudResponse.ERROR_CODE);
+			mooncloudResponse.setMsg(e.toString());
+		} catch (IOException e) {
+			mooncloudResponse.setErrorCode(MooncloudResponse.ERROR_CODE);
+			mooncloudResponse.setMsg(e.toString());
+		}
+		LOGGER.info(JSON.toJSONString(mooncloudResponse));
+		return mooncloudResponse;
+	}
 }
