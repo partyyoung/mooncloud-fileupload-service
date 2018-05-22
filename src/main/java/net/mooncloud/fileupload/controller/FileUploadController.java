@@ -25,13 +25,13 @@ public class FileUploadController {
 
 	@RequestMapping(value = "/upload", method = RequestMethod.POST)
 	public Object uploadFile(MultipartFile file) throws IOException {
-		Assert.isTrue(!file.isEmpty(), "文件为空");
+		Assert.isTrue(file == null || !file.isEmpty(), "文件为空");
 		return fileUploadService.uploadFile(file);
 	}
 
 	@RequestMapping(value = "/upload2path", method = RequestMethod.POST)
 	public Object uploadFileToPath(MultipartFile file, String path) throws IOException {
-		Assert.isTrue(!file.isEmpty(), "文件为空");
+		Assert.isTrue(file == null || !file.isEmpty(), "文件为空");
 		Assert.isTrue(path == null || !path.isEmpty(), "path为空");
 		return fileUploadService.uploadFile(file, path);
 	}

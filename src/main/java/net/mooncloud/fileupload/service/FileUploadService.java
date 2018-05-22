@@ -24,8 +24,6 @@ public class FileUploadService {
 	}
 
 	public Object uploadFile(MultipartFile multipartFile, String path) throws IOException {
-		Assert.isTrue(!multipartFile.isEmpty(), "文件为空");
-
 		String fileName = multipartFile.getOriginalFilename();
 		InputStream inputStream = multipartFile.getInputStream();
 
