@@ -1,7 +1,7 @@
 # mooncloud-fileupload-service
 mooncloud-fileupload-service
 
-mooncloud-fileupload-sdk (java&python) https://github.com/partyyoung/mooncloud-fileupload-java-sdk
+mooncloud-fileupload-sdk (java&python) https://github.com/partyyoung/mooncloud-fileupload-sdk
 
 ## Startup
 ```
