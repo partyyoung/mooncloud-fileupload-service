@@ -133,7 +133,7 @@ spring.servlet.multipart.max-request-size=-1
 * errorCode: 错误码
 * msg: 错误信息
 * body: 结果信息   
-    - file: 服务器上文件存储的绝对路径   
+    - file: 服务器上文件存储的绝对路径   
     - taken: 存储文件消耗的毫秒数   
     - start: 存储文件的开始时间戳   
     - end: 存储文件的结束时间戳   
