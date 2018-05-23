@@ -101,11 +101,11 @@ spring.servlet.multipart.max-request-size=-1
 ```
 
 ### /file/upload2http
-文件上传到文件服务器的root/path下。path为用户指定的路径。返回文件的http地址。
+文件上传到文件服务器的http-root/path下。http-root=$file-upload-service.file-http-root，path为用户指定的路径参数。返回文件的http地址。
 
 #### 业务参数
 * file: 
-* path: 服务器存储路径。例如：/static/img
+* path: http-root下的存储路径。例如：/static/img
 * rename: 是否重新命名，可选参数，默认true。当前时间戳+文件名16位MD5+后缀名，作为新的文件名
 * overwrite: 是否覆盖服务器文件，可选参数，默认true。如果path下有相同名字的文件，将覆盖
 
