@@ -1,5 +1,7 @@
 # mooncloud-fileupload-service
-mooncloud-fileupload-service
+mooncloud-fileupload-service  
+
+利用[MultipartFile](https://docs.spring.io/spring/docs/current/javadoc-api/org/springframework/mock/web/MockMultipartFile.html)实现文件上传  
 
 mooncloud-fileupload-sdk (java&python) https://github.com/partyyoung/mooncloud-fileupload-sdk
 
@@ -8,8 +10,22 @@ mooncloud-fileupload-sdk (java&python) https://github.com/partyyoung/mooncloud-f
 java -jar mooncloud-fileupload-service-0.0.1-SNAPSHOT.jar --server.port=2121 [--file-upload-service.file-upload-path=/tmp/ --spring.servlet.multipart.max-file-size=30Mb --spring.servlet.multipart.max-request-size=30Mb] > log 2>&1 &
 ```
 
+### 自定义参数
+* file-upload-service.file-upload-path=/tmp
+* file-upload-service.file-http-root=/home/ftpuser
+* file-upload-service.file-http-url=http://172.16.1.78
+
+### Spring参数
+\# MULTIPART (MultipartProperties)   
+```
+spring.servlet.multipart.max-file-size=-1   
+spring.servlet.multipart.max-request-size=-1   
+```
+
 ## API
-### /file/upload 
+### /file/upload   
+文件上传到默认path下。以service启动时指定的file-upload-service.file-upload-path为准
+
 #### 业务参数
 * file
 
@@ -36,7 +52,9 @@ java -jar mooncloud-fileupload-service-0.0.1-SNAPSHOT.jar --server.port=2121 [--
 }
 ```
 
-### /file/upload2path
+### /file/upload2path   
+文件上传到指定的path下。以service启动时指定的file-upload-service.file-upload-path为准
+
 #### 业务参数
 * file
 * path 服务器存储路径
