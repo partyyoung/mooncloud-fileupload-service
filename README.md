@@ -15,9 +15,9 @@ java -jar mooncloud-fileupload-service-0.0.1-SNAPSHOT.jar --server.port=2121 [--
 
 #### 返回参数
 * success true/false
-* errorCode 结果状态码
-* msg 
-* body 
+* errorCode  错误码
+* msg 提示信息
+* body 结果信息
 
 #### 返回示例
 ```
@@ -39,13 +39,13 @@ java -jar mooncloud-fileupload-service-0.0.1-SNAPSHOT.jar --server.port=2121 [--
 ### /file/upload2path
 #### 业务参数
 * file
-* path
+* path 服务器存储路径
 
 #### 返回参数
 * success true/false
-* errorCode 结果状态码
-* msg 
-* body 
+* errorCode  错误码
+* msg 提示信息
+* body 结果信息
 
 #### 返回示例
 ```
@@ -68,13 +68,13 @@ java -jar mooncloud-fileupload-service-0.0.1-SNAPSHOT.jar --server.port=2121 [--
 ### /file/upload2http
 #### 业务参数
 * file
-* path
+* path 服务器存储路径
 
 ### 返回参数
 * success true/false
-* errorCode 结果状态码
-* msg 
-* body 
+* errorCode  错误码
+* msg 提示信息
+* body 结果信息
 
 ### 返回示例
 ```
