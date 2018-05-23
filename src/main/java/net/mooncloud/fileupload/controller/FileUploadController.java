@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -42,7 +43,7 @@ public class FileUploadController {
 		try {
 			Assert.isTrue(file == null || !file.isEmpty(), "文件为空");
 			Assert.isTrue(path == null || !path.isEmpty(), "path为空");
-			mooncloudResponse.setBody(fileUploadService.uploadFile(file, path));
+			mooncloudResponse.setBody(fileUploadService.uploadFile(file, path, false, true));
 		} catch (IllegalArgumentException e) {
 			mooncloudResponse.setErrorCode(MooncloudResponse.ERROR_CODE);
 			mooncloudResponse.setMsg(e.toString());
@@ -55,12 +56,14 @@ public class FileUploadController {
 	}
 
 	@RequestMapping(value = "/upload2http", method = RequestMethod.POST)
-	public Object uploadFileToHttp(MultipartFile file, String path) {
+	public Object uploadFileToHttp(MultipartFile file, String path,
+			@RequestParam(value = "rename", defaultValue = "true") boolean rename,
+			@RequestParam(value = "overwrite", defaultValue = "true") boolean overwrite) {
 		MooncloudResponse mooncloudResponse = new MooncloudResponse();
 		try {
 			Assert.isTrue(file == null || !file.isEmpty(), "文件为空");
 			path = path == null ? "" : path;
-			mooncloudResponse.setBody(fileUploadService.uploadFileToHttp(file, path));
+			mooncloudResponse.setBody(fileUploadService.uploadFileToHttp(file, path, rename, overwrite));
 		} catch (IllegalArgumentException e) {
 			mooncloudResponse.setErrorCode(MooncloudResponse.ERROR_CODE);
 			mooncloudResponse.setMsg(e.toString());

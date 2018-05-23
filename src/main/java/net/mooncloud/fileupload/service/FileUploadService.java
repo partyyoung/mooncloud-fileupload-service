@@ -11,6 +11,8 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import net.mooncloud.fileupload.util.MD5Hash;
+
 @Service
 @ConfigurationProperties(prefix = "file-upload-service")
 public class FileUploadService {
@@ -18,17 +20,19 @@ public class FileUploadService {
 	private final static Logger LOGGER = LoggerFactory.getLogger(FileUploadService.class);
 
 	public Map<String, Object> uploadFile(MultipartFile multipartFile) throws IOException {
-		return uploadFile(multipartFile, fileUploadPath);
+		return uploadFile(multipartFile, fileUploadPath, false, true);
 	}
 
-	public Map<String, Object> uploadFileToHttp(MultipartFile multipartFile, String path) throws IOException {
-		Map<String, Object> ret = uploadFile(multipartFile, fileHttpRoot + "/" + path);
-		ret.put("url", fileHttpUrl
-				+ ("/" + ret.get("file").toString().replaceFirst(fileHttpRoot, "")).replaceFirst("//", "/"));
+	public Map<String, Object> uploadFileToHttp(MultipartFile multipartFile, String path, boolean rename,
+			boolean overwrite) throws IOException {
+		Map<String, Object> ret = uploadFile(multipartFile, fileHttpRoot + "/" + path, rename, overwrite);
+		ret.put("url",
+				fileHttpUrl + ("/" + ret.get("file").toString().replaceFirst(fileHttpRoot, "")).replace("//", "/"));
 		return ret;
 	}
 
-	public Map<String, Object> uploadFile(MultipartFile multipartFile, String path) throws IOException {
+	public Map<String, Object> uploadFile(MultipartFile multipartFile, String path, boolean rename, boolean overwrite)
+			throws IOException {
 
 		Long start = System.currentTimeMillis();
 		Map<String, Object> ret = new HashMap<String, Object>();
@@ -42,7 +46,17 @@ public class FileUploadService {
 			path = path.substring(0, path.length() - 1);
 		}
 
+		if (rename) {
+			StringBuilder stringBuider = new StringBuilder();
+			stringBuider.append(System.currentTimeMillis()).append("-").append(MD5Hash.digest(fileName).toString16());
+			stringBuider.append(fileName.substring(fileName.indexOf('.')));
+			fileName = stringBuider.toString();
+		}
+
 		File file = new File(path + "/" + fileName);
+		if (!overwrite && file.exists()) {
+			throw new IOException("overwrite=false, file" + file + " already exists!");
+		}
 		if (!file.getParentFile().exists()) {
 			file.getParentFile().mkdirs();
 		}
