@@ -11,9 +11,15 @@ java -jar mooncloud-fileupload-service-0.0.1-SNAPSHOT.jar --server.port=2121 [--
 ```
 
 ### 自定义参数
-* file-upload-service.file-upload-path=/tmp
-* file-upload-service.file-http-root=/home/ftpuser
-* file-upload-service.file-http-url=http://172.16.1.78
+\# 默认的文件上传path
+```
+file-upload-service.file-upload-path=/tmp
+```
+\# 文件服务器的root地址和http地址
+```
+file-upload-service.file-http-root=/home/ftpuser
+file-upload-service.file-http-url=http://172.16.1.78
+```
 
 ### Spring参数
 \# MULTIPART (MultipartProperties)   
@@ -53,11 +59,11 @@ spring.servlet.multipart.max-request-size=-1
 ```
 
 ### /file/upload2path   
-文件上传到指定的path下。以service启动时指定的file-upload-service.file-upload-path为准
+文件上传到指定的path下。
 
 #### 业务参数
 * file
-* path 服务器存储路径
+* path 服务器存储路径，不能为空。
 
 #### 返回参数
 * success true/false
@@ -84,6 +90,8 @@ spring.servlet.multipart.max-request-size=-1
 ```
 
 ### /file/upload2http
+文件上传到文件服务器的root/path下。path为用户指定的路径。返回文件的http地址。
+
 #### 业务参数
 * file
 * path 服务器存储路径
@@ -112,7 +120,7 @@ spring.servlet.multipart.max-request-size=-1
 }
 ```
 
-## 
+## 服务调优
 ### 设置文件上传大小限制
 Spring boot版本升级到了2.0.0，发现原来的文件上传大小限制设置不起作用了，原来的application.properties设置如下：
 
