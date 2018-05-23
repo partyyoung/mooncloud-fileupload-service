@@ -36,10 +36,16 @@ spring.servlet.multipart.max-request-size=-1
 * file
 
 #### 返回参数
-* success true/false
-* errorCode  错误码
-* msg 错误信息
-* body 结果信息
+* success: true/false
+* errorCode: 错误码
+* msg: 错误信息
+* body: 结果信息   
+    - file: 文件服务器上的文件绝对路径   
+    - taken: 存储文件消耗的毫秒数   
+    - start: 存储文件的开始时间戳   
+    - end: 存储文件的结束时间戳   
+    - contentType: contentType   
+    - originalFilename: 原始文件名   
 
 #### 返回示例
 ```
@@ -66,10 +72,16 @@ spring.servlet.multipart.max-request-size=-1
 * path 服务器存储路径，不能为空。
 
 #### 返回参数
-* success true/false
-* errorCode  错误码
-* msg 错误信息
-* body 结果信息
+* success: true/false
+* errorCode: 错误码
+* msg: 错误信息
+* body: 结果信息   
+    - file: 文件服务器上的文件绝对路径   
+    - taken: 存储文件消耗的毫秒数   
+    - start: 存储文件的开始时间戳   
+    - end: 存储文件的结束时间戳   
+    - contentType: contentType   
+    - originalFilename: 原始文件名   
 
 #### 返回示例
 ```
@@ -82,8 +94,7 @@ spring.servlet.multipart.max-request-size=-1
 		"start": 1526983060278,
 		"end": 1526983060279,
 		"contentType": "application/octet-stream",
-		"originalFilename": "MultipartFileUpload.java",
-		"url": "http://172.16.1.78/static/img/MultipartFileUpload.java"
+		"originalFilename": "MultipartFileUpload.java"
 	},
 	"success": true
 }
@@ -93,16 +104,23 @@ spring.servlet.multipart.max-request-size=-1
 文件上传到文件服务器的root/path下。path为用户指定的路径。返回文件的http地址。
 
 #### 业务参数
-* file
-* path 服务器存储路径
-* rename true
-* overwrite true
+* file: 
+* path: 服务器存储路径
+* rename: 是否重新命名，可选参数，默认true。当前时间戳+文件名16位MD5+后缀名，作为新的文件名
+* overwrite: 是否覆盖服务器文件，可选参数，默认true。如果path下有相同名字的文件，将覆盖
 
 ### 返回参数
-* success true/false
-* errorCode  错误码
-* msg 错误信息
-* body 结果信息
+* success: true/false
+* errorCode: 错误码
+* msg: 错误信息
+* body: 结果信息   
+    - file: 服务器上文件存储的绝对路径   
+    - taken: 存储文件消耗的毫秒数   
+    - start: 存储文件的开始时间戳   
+    - end: 存储文件的结束时间戳   
+    - contentType: contentType   
+    - originalFilename: 原始文件名   
+    - url: 文件的http地址   
 
 ### 返回示例
 ```
@@ -110,13 +128,13 @@ spring.servlet.multipart.max-request-size=-1
 	"errorCode": null,
 	"msg": null,
 	"body": {
-		"file": "/home/ftpuser/static/img/MultipartFileUpload.java",
+		"file": "/home/ftpuser/static/img/1527081063540-b5cc79f8e97f56ad.java",
 		"taken": 1,
 		"start": 1526983060278,
 		"end": 1526983060279,
 		"contentType": "application/octet-stream",
 		"originalFilename": "MultipartFileUpload.java",
-		"url": "http://172.16.1.78/static/img/MultipartFileUpload.java"
+		"url": "http://127.0.0.1/static/img/1527081063540-b5cc79f8e97f56ad.java"
 	},
 	"success": true
 }
