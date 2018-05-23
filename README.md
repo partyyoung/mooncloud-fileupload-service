@@ -28,7 +28,7 @@ spring.servlet.multipart.max-file-size=-1
 spring.servlet.multipart.max-request-size=-1   
 ```
 
-## API
+## APIs
 ### /file/upload   
 文件上传到默认path下。以service启动时指定的file-upload-service.file-upload-path为准
 
@@ -95,6 +95,8 @@ spring.servlet.multipart.max-request-size=-1
 #### 业务参数
 * file
 * path 服务器存储路径
+* rename true
+* overwrite true
 
 ### 返回参数
 * success true/false
