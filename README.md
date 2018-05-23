@@ -38,7 +38,7 @@ spring.servlet.multipart.max-request-size=-1
 #### 返回参数
 * success true/false
 * errorCode  错误码
-* msg 提示信息
+* msg 错误信息
 * body 结果信息
 
 #### 返回示例
@@ -68,7 +68,7 @@ spring.servlet.multipart.max-request-size=-1
 #### 返回参数
 * success true/false
 * errorCode  错误码
-* msg 提示信息
+* msg 错误信息
 * body 结果信息
 
 #### 返回示例
@@ -99,7 +99,7 @@ spring.servlet.multipart.max-request-size=-1
 ### 返回参数
 * success true/false
 * errorCode  错误码
-* msg 提示信息
+* msg 错误信息
 * body 结果信息
 
 ### 返回示例
