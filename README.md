@@ -29,7 +29,26 @@ spring.servlet.multipart.max-request-size=-1
 ```
 
 ## APIs
-### /file/upload   
+### GET /file
+可以作为服务状态接口
+
+#### 业务参数
+无
+
+#### 返回参数
+* success: true
+
+#### 返回示例
+```
+{
+	"errorCode": null,
+	"msg": null,
+	"body": "file",
+	"success": true
+}
+```
+
+### POST /file/upload   
 文件上传到默认path下。以service启动时指定的file-upload-service.file-upload-path为准
 
 #### 业务参数
@@ -64,7 +83,7 @@ spring.servlet.multipart.max-request-size=-1
 }
 ```
 
-### /file/upload2path   
+### POST /file/upload2path   
 文件上传到指定的path下。
 
 #### 业务参数
@@ -100,7 +119,7 @@ spring.servlet.multipart.max-request-size=-1
 }
 ```
 
-### /file/upload2http
+### POST /file/upload2http
 文件上传到文件服务器的http-root/path下。http-root=$file-upload-service.file-http-root，path为用户指定的路径参数。返回文件的http地址。
 
 #### 业务参数

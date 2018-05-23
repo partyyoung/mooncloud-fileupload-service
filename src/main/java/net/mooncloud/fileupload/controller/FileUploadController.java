@@ -28,7 +28,9 @@ public class FileUploadController {
 
 	@RequestMapping()
 	public Object home() throws IOException {
-		return "file";
+		MooncloudResponse mooncloudResponse = new MooncloudResponse();
+		mooncloudResponse.setBody("file");
+		return mooncloudResponse;
 	}
 
 	@RequestMapping(value = "/upload", method = RequestMethod.POST)
