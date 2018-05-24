@@ -29,7 +29,9 @@ spring.servlet.multipart.max-request-size=-1
 ```
 
 ## APIs
-### GET /file
+服务地址：10.10.10.124:2121
+
+### 1. GET /file
 可以作为服务状态接口
 
 #### 业务参数
@@ -48,7 +50,7 @@ spring.servlet.multipart.max-request-size=-1
 }
 ```
 
-### POST /file/upload   
+### 2. POST /file/upload   
 文件上传到默认path下。以service启动时指定的file-upload-service.file-upload-path为准
 
 #### 业务参数
@@ -83,7 +85,7 @@ spring.servlet.multipart.max-request-size=-1
 }
 ```
 
-### POST /file/upload2path   
+### 3. POST /file/upload2path   
 文件上传到指定的path下。
 
 #### 业务参数
@@ -119,7 +121,7 @@ spring.servlet.multipart.max-request-size=-1
 }
 ```
 
-### POST /file/upload2http
+### 4. POST /file/upload2http
 文件上传到文件服务器的http-root/path下。http-root=$file-upload-service.file-http-root，path为用户指定的路径参数。返回文件的http地址。
 
 #### 业务参数
