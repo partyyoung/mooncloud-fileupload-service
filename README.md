@@ -29,7 +29,7 @@ spring.servlet.multipart.max-request-size=-1
 ```
 
 ## APIs
-服务地址：10.10.10.124:2121
+服务地址：http://10.10.10.124:2121
 
 ### 1. GET /file
 可以作为服务状态接口
