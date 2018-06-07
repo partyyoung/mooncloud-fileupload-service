@@ -31,6 +31,13 @@ spring.servlet.multipart.max-request-size=-1
 ## APIs
 服务地址：http://10.10.10.124:2121
 
+1. GET /file OR /oss 可以作为服务状态接口
+2. POST /file/upload 文件上传到默认path下。
+3. POST /file/upload2path 文件上传到指定的path下。
+4. POST /file/upload2http 文件上传到文件服务器的http-root/path下。
+5. GET /file/env 获取Service环境变量值：fileUploadPath、fileHttpRoot和fileHttpUrl。
+6. POST /file/env/update 更新Service环境变量值。
+
 ### 1. GET /file
 可以作为服务状态接口
 
@@ -156,6 +163,67 @@ spring.servlet.multipart.max-request-size=-1
 		"contentType": "application/octet-stream",
 		"originalFilename": "MultipartFileUpload.java",
 		"url": "http://127.0.0.1/static/img/1527081063540-b5cc79f8e97f56ad.java"
+	},
+	"success": true
+}
+```
+
+### 5. GET /file/env
+获取Service环境变量值：fileUploadPath、fileHttpRoot和fileHttpUrl。
+
+#### 业务参数
+无
+
+### 返回参数
+* success: true/false
+* errorCode: 错误码
+* msg: 错误信息
+* body: 结果信息   
+    - fileUploadPath: 服务器上文件存储的路径   
+    - fileHttpRoot: 服务器上文件存储的路径   
+    - fileHttpUrl: 文件HTTP路径前缀   
+
+### 返回示例
+```
+{
+	"errorCode": null,
+	"msg": null,
+	"body": {
+		"fileUploadPath": "/tmp",
+		"fileHttpRoot": "/home/ftpuser/static",
+		"fileHttpUrl": "http://172.16.1.78/static"
+	},
+	"success": true
+}
+```
+
+### 6. POST/GET /file/env/update
+更新Service环境变量值。
+
+#### 业务参数
+* env: JSON字符串，包括fileUploadPath、fileHttpRoot和fileHttpUrl。{"fileUploadPath":"","fileHttpRoot":"","fileHttpUrl":""}。或者用以下参数单独更新某个环境变量的值。   
+* fileUploadPath: upload服务器上文件存储的路径   
+* fileHttpRoot: file2http服务器上文件存储的路径   
+* fileHttpUrl: file2http文件HTTP路径前缀   
+
+### 返回参数
+* success: true/false
+* errorCode: 错误码
+* msg: 错误信息
+* body: 结果信息   
+    - fileUploadPath: 服务器上文件存储的路径   
+    - fileHttpRoot: 服务器上文件存储的路径   
+    - fileHttpUrl: 文件HTTP路径前缀   
+
+### 返回示例
+```
+{
+	"errorCode": null,
+	"msg": null,
+	"body": {
+		"fileUploadPath": "/tmp",
+		"fileHttpRoot": "/home/ftpuser/static",
+		"fileHttpUrl": "http://172.16.1.78/static"
 	},
 	"success": true
 }
