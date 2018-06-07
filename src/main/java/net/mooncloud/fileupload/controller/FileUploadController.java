@@ -124,6 +124,8 @@ public class FileUploadController {
 			if (!StringUtils.isEmpty(fileHttpUrl)) {
 				fileUploadService.setFileHttpUrl(fileHttpUrl);
 			}
+			
+			mooncloudResponse.setBody(fileUploadService);
 		} catch (IllegalArgumentException e) {
 			mooncloudResponse.setErrorCode(MooncloudResponse.ERROR_CODE);
 			mooncloudResponse.setMsg(e.toString());
