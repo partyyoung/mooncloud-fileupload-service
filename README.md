@@ -3,11 +3,11 @@ mooncloud-fileupload-service
 
 利用[MultipartFile](https://docs.spring.io/spring/docs/current/javadoc-api/org/springframework/mock/web/MockMultipartFile.html)实现文件上传  
 
-mooncloud-fileupload-sdk (java&python) https://github.com/partyyoung/mooncloud-fileupload-sdk
+SDK参见：mooncloud-fileupload-sdk (java&python) https://github.com/partyyoung/mooncloud-fileupload-sdk
 
 ## Startup
 ```
-java -jar mooncloud-fileupload-service-0.0.1-SNAPSHOT.jar --server.port=2121 [--file-upload-service.file-upload-path=/tmp/ --spring.servlet.multipart.max-file-size=30Mb --spring.servlet.multipart.max-request-size=30Mb] > log 2>&1 &
+nohup java -jar mooncloud-fileupload-service-0.0.1-SNAPSHOT.jar --server.port=12121 &
 ```
 
 ### 自定义参数
@@ -17,8 +17,9 @@ file-upload-service.file-upload-path=/tmp
 ```
 \# 文件服务器的root地址和http地址
 ```
-file-upload-service.file-http-root=/home/ftpuser
-file-upload-service.file-http-url=http://172.16.1.78
+file-upload-service.file-http-root=/data/html/oss  
+file-upload-service.file-http-url=http://172.16.1.78:12121/oss  
+file-upload-service.file-http-url2=http://127.0.0.1:12121/oss
 ```
 
 ### Spring参数
@@ -29,16 +30,18 @@ spring.servlet.multipart.max-request-size=-1
 ```
 
 ## APIs
-服务地址：http://10.10.10.124:2121
+服务地址：http://10.10.10.124:12121/upload
 
-1. GET /file OR /oss 可以作为服务状态接口
-2. POST /file/upload 文件上传到默认path下。
-3. POST /file/upload2path 文件上传到指定的path下。
-4. POST /file/upload2http 文件上传到文件服务器的http-root/path下。
-5. GET /file/env 获取Service环境变量值：fileUploadPath、fileHttpRoot和fileHttpUrl。
-6. POST /file/env/update 更新Service环境变量值。
+| id | 类型 | 接口                       | 说明                    |
+| -- | ---- | -------------------------- | ----------------------- |
+| 1. | GET | /oss | 可以作为服务状态接口  |
+| 2. | POST | /oss/upload | 文件上传到默认path下。 |
+| 3. | POST | /oss/upload2path | 文件上传到指定的path下。 |
+| 4. | POST | /oss/upload2http | 文件上传到文件服务器的http-root/path下。 |
+| 5. | GET | /oss/env | 获取Service环境变量值：fileUploadPath、fileHttpRoot和fileHttpUrl。 |
+| 6. | POST | /oss/env/update | 更新Service环境变量值。 |
 
-### 1. GET /file
+### 1. GET /oss
 可以作为服务状态接口
 
 #### 业务参数
@@ -57,7 +60,7 @@ spring.servlet.multipart.max-request-size=-1
 }
 ```
 
-### 2. POST /file/upload   
+### 2. POST /oss/upload   
 文件上传到默认path下。以service启动时指定的file-upload-service.file-upload-path为准
 
 #### 业务参数
@@ -92,7 +95,7 @@ spring.servlet.multipart.max-request-size=-1
 }
 ```
 
-### 3. POST /file/upload2path   
+### 3. POST /oss/upload2path   
 文件上传到指定的path下。
 
 #### 业务参数
@@ -128,7 +131,7 @@ spring.servlet.multipart.max-request-size=-1
 }
 ```
 
-### 4. POST /file/upload2http
+### 4. POST /oss/upload2http
 文件上传到文件服务器的http-root/path下。http-root=$file-upload-service.file-http-root，path为用户指定的路径参数。返回文件的http地址。
 
 #### 业务参数
@@ -168,7 +171,7 @@ spring.servlet.multipart.max-request-size=-1
 }
 ```
 
-### 5. GET /file/env
+### 5. GET /oss/env
 获取Service环境变量值：fileUploadPath、fileHttpRoot和fileHttpUrl。
 
 #### 业务参数
@@ -197,7 +200,7 @@ spring.servlet.multipart.max-request-size=-1
 }
 ```
 
-### 6. POST/GET /file/env/update
+### 6. POST/GET /oss/env/update
 更新Service环境变量值。
 
 #### 业务参数
