@@ -17,7 +17,8 @@ import net.mooncloud.fileupload.util.MD5Hash;
 @ConfigurationProperties(prefix = "file-upload-service")
 public class FileUploadService {
 
-	private final static Logger LOGGER = LoggerFactory.getLogger(FileUploadService.class);
+	// private final static Logger LOGGER =
+	// LoggerFactory.getLogger(FileUploadService.class);
 
 	public Map<String, Object> uploadFile(MultipartFile multipartFile) throws IOException {
 		return uploadFile(multipartFile, fileUploadPath, false, true);
@@ -28,6 +29,8 @@ public class FileUploadService {
 		Map<String, Object> ret = uploadFile(multipartFile, fileHttpRoot + "/" + path, rename, overwrite);
 		ret.put("url",
 				fileHttpUrl + ("/" + ret.get("file").toString().replaceFirst(fileHttpRoot, "")).replace("//", "/"));
+		ret.put("url2",
+				fileHttpUrl2 + ("/" + ret.get("file").toString().replaceFirst(fileHttpRoot, "")).replace("//", "/"));
 		return ret;
 	}
 
@@ -106,6 +109,16 @@ public class FileUploadService {
 
 	public void setFileHttpUrl(String fileHttpUrl) {
 		this.fileHttpUrl = fileHttpUrl;
+	}
+
+	private String fileHttpUrl2;
+
+	public String getFileHttpUrl2() {
+		return fileHttpUrl2;
+	}
+
+	public void setFileHttpUrl2(String fileHttpUrl2) {
+		this.fileHttpUrl2 = fileHttpUrl2;
 	}
 
 }

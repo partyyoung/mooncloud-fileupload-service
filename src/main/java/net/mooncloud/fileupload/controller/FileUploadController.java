@@ -20,7 +20,7 @@ import net.mooncloud.fileupload.MooncloudResponse;
 import net.mooncloud.fileupload.service.FileUploadService;
 
 @RestController
-@RequestMapping(value = { "/file", "/oss" })
+@RequestMapping(value = { "/upload/oss" })
 public class FileUploadController {
 
 	private final static Logger LOGGER = LoggerFactory.getLogger(FileUploadController.class);
@@ -59,14 +59,21 @@ public class FileUploadController {
 		return mooncloudResponse;
 	}
 
+	/**
+	 * @param file
+	 * @param path
+	 * @param rename
+	 * @param overwrite
+	 * @return
+	 */
 	@RequestMapping(value = "/upload2http", method = RequestMethod.POST)
-	public Object uploadFileToHttp(MultipartFile file, @RequestParam(value = "path", defaultValue = "") String path,
+	public Object uploadFileToHttp(MultipartFile file,
+			@RequestParam(value = "path", defaultValue = "upload") String path,
 			@RequestParam(value = "rename", defaultValue = "true") boolean rename,
 			@RequestParam(value = "overwrite", defaultValue = "true") boolean overwrite) {
 		MooncloudResponse mooncloudResponse = new MooncloudResponse();
 		try {
 			Assert.isTrue(file != null && !file.isEmpty(), "file文件为空");
-			path = path == null ? "" : path;
 			mooncloudResponse.setBody(fileUploadService.uploadFileToHttp(file, path, rename, overwrite));
 		} catch (IllegalArgumentException e) {
 			mooncloudResponse.setErrorCode(MooncloudResponse.ERROR_CODE);
@@ -96,13 +103,13 @@ public class FileUploadController {
 	public Object updateToHttp(@RequestParam(value = "env", defaultValue = "") String env,
 			@RequestParam(value = "fileUploadPath", defaultValue = "") String fileUploadPath,
 			@RequestParam(value = "fileHttpRoot", defaultValue = "") String fileHttpRoot,
-			@RequestParam(value = "fileHttpUrl", defaultValue = "") String fileHttpUrl) {
+			@RequestParam(value = "fileHttpUrl", defaultValue = "") String fileHttpUrl,
+			@RequestParam(value = "fileHttpUrl2", defaultValue = "") String fileHttpUrl2) {
 		MooncloudResponse mooncloudResponse = new MooncloudResponse();
 		try {
-			Assert.isTrue(
-					!(StringUtils.isEmpty(env) && StringUtils.isEmpty(fileUploadPath)
-							&& StringUtils.isEmpty(fileHttpRoot) && StringUtils.isEmpty(fileHttpUrl)),
-					"attributes error");
+			Assert.isTrue(!(StringUtils.isEmpty(env) && StringUtils.isEmpty(fileUploadPath)
+					&& StringUtils.isEmpty(fileHttpRoot) && StringUtils.isEmpty(fileHttpUrl)
+					&& StringUtils.isEmpty(fileHttpUrl2)), "attributes error");
 
 			if (!StringUtils.isEmpty(env)) {
 				Assert.isTrue(env.startsWith("{"), "env fomart error");
@@ -113,6 +120,8 @@ public class FileUploadController {
 						: fileHttpRoot;
 				fileHttpUrl = envObject.containsKey("fileHttpUrl") ? envObject.get("fileHttpUrl").toString()
 						: fileHttpUrl;
+				fileHttpUrl2 = envObject.containsKey("fileHttpUrl2") ? envObject.get("fileHttpUrl2").toString()
+						: fileHttpUrl2;
 			}
 
 			if (!StringUtils.isEmpty(fileUploadPath)) {
@@ -124,7 +133,10 @@ public class FileUploadController {
 			if (!StringUtils.isEmpty(fileHttpUrl)) {
 				fileUploadService.setFileHttpUrl(fileHttpUrl);
 			}
-			
+			if (!StringUtils.isEmpty(fileHttpUrl2)) {
+				fileUploadService.setFileHttpUrl2(fileHttpUrl2);
+			}
+
 			mooncloudResponse.setBody(fileUploadService);
 		} catch (IllegalArgumentException e) {
 			mooncloudResponse.setErrorCode(MooncloudResponse.ERROR_CODE);
