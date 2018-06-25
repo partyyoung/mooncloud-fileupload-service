@@ -136,7 +136,7 @@ spring.servlet.multipart.max-request-size=-1
 
 #### 业务参数
 * file: 
-* path: http-root下的存储路径。例如：/static/img
+* path: http-root下的存储路径，可选参数，默认/upload。例如：/static/img
 * rename: 是否重新命名，可选参数，默认true。当前时间戳+文件名16位MD5+后缀名，作为新的文件名
 * overwrite: 是否覆盖服务器文件，可选参数，默认true。如果path下有相同名字的文件，将覆盖
 
