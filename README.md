@@ -151,7 +151,8 @@ spring.servlet.multipart.max-request-size=-1
     - end: 存储文件的结束时间戳   
     - contentType: contentType   
     - originalFilename: 原始文件名   
-    - url: 文件的http地址   
+    - url: 文件的公网http地址     
+    - url2: 文件的局域网http地址   
 
 #### 返回示例
 ```
@@ -165,7 +166,8 @@ spring.servlet.multipart.max-request-size=-1
 		"end": 1526983060279,
 		"contentType": "application/octet-stream",
 		"originalFilename": "MultipartFileUpload.java",
-		"url": "http://127.0.0.1/static/img/1527081063540-b5cc79f8e97f56ad.java"
+		"url": "http://127.0.0.1/static/img/1527081063540-b5cc79f8e97f56ad.java",
+		"url2": "http://127.0.0.1/static/img/1527081063540-b5cc79f8e97f56ad.java"
 	},
 	"success": true
 }
