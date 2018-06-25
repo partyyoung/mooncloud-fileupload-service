@@ -151,8 +151,8 @@ spring.servlet.multipart.max-request-size=-1
     - end: 存储文件的结束时间戳   
     - contentType: contentType   
     - originalFilename: 原始文件名   
-    - url: 文件的公网http地址     
-    - url2: 文件的局域网http地址   
+    - url: 文件的公网http地址     
+    - url2: 文件的局域网http地址   
 
 #### 返回示例
 ```
@@ -186,7 +186,7 @@ spring.servlet.multipart.max-request-size=-1
 * body: 结果信息   
     - fileUploadPath: 服务器上文件存储的路径   
     - fileHttpRoot: 服务器上文件存储的路径   
-    - fileHttpUrl: 文件HTTP路径前缀   
+    - fileHttpUrl: 文件HTTP路径前缀   
 
 #### 返回示例
 ```
@@ -218,7 +218,7 @@ spring.servlet.multipart.max-request-size=-1
 * body: 结果信息   
     - fileUploadPath: 服务器上文件存储的路径   
     - fileHttpRoot: 服务器上文件存储的路径   
-    - fileHttpUrl: 文件HTTP路径前缀   
+    - fileHttpUrl: 文件HTTP路径前缀   
 
 #### 返回示例
 ```
