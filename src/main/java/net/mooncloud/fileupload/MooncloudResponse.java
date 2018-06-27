@@ -1,8 +1,12 @@
 package net.mooncloud.fileupload;
 
 public class MooncloudResponse {
-	
+
 	public static final String ERROR_CODE = "50";
+
+	private String code;
+
+	private Boolean message;
 
 	private String errorCode;
 
@@ -36,5 +40,13 @@ public class MooncloudResponse {
 
 	public boolean isSuccess() {
 		return this.errorCode == null;
+	}
+
+	public boolean getMessage() {
+		return this.errorCode == null;
+	}
+
+	public String getCode() {
+		return this.errorCode == null ? "00000" : "99999";
 	}
 }

@@ -1,7 +1,14 @@
 package net.mooncloud.fileupload.controller;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -12,6 +19,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.alibaba.fastjson.JSON;
@@ -65,16 +74,51 @@ public class FileUploadController {
 	 * @param rename
 	 * @param overwrite
 	 * @return
+	 * @throws IOException
 	 */
-	@RequestMapping(value = "/upload2http", method = RequestMethod.POST)
+	@RequestMapping(value = "/upload2http1", method = RequestMethod.POST)
 	public Object uploadFileToHttp(MultipartFile file,
 			@RequestParam(value = "path", defaultValue = "upload") String path,
 			@RequestParam(value = "rename", defaultValue = "true") boolean rename,
-			@RequestParam(value = "overwrite", defaultValue = "true") boolean overwrite) {
+			@RequestParam(value = "overwrite", defaultValue = "true") boolean overwrite) throws IOException {
+
 		MooncloudResponse mooncloudResponse = new MooncloudResponse();
 		try {
 			Assert.isTrue(file != null && !file.isEmpty(), "file文件为空");
 			mooncloudResponse.setBody(fileUploadService.uploadFileToHttp(file, path, rename, overwrite));
+		} catch (IllegalArgumentException e) {
+			mooncloudResponse.setErrorCode(MooncloudResponse.ERROR_CODE);
+			mooncloudResponse.setMsg(e.toString());
+		} catch (IOException e) {
+			mooncloudResponse.setErrorCode(MooncloudResponse.ERROR_CODE);
+			mooncloudResponse.setMsg(e.toString());
+		}
+		LOGGER.info(JSON.toJSONString(mooncloudResponse));
+		return mooncloudResponse;
+	}
+
+	/**
+	 * @param file
+	 * @param path
+	 * @param rename
+	 * @param overwrite
+	 * @return
+	 * @throws IOException
+	 */
+	@RequestMapping(value = "/upload2http", method = RequestMethod.POST)
+	public Object uploadFilesToHttp(List<MultipartFile> file,
+			@RequestParam(value = "path", defaultValue = "upload") String path,
+			@RequestParam(value = "rename", defaultValue = "true") boolean rename,
+			@RequestParam(value = "overwrite", defaultValue = "true") boolean overwrite) throws IOException {
+
+		MooncloudResponse mooncloudResponse = new MooncloudResponse();
+		try {
+			Assert.isTrue(file != null && !file.isEmpty(), "file文件为空");
+			List<Object> r = new ArrayList<Object>(file.size());
+			for (MultipartFile f : file) {
+				r.add(fileUploadService.uploadFileToHttp(f, path, rename, overwrite));
+			}
+			mooncloudResponse.setBody(r);
 		} catch (IllegalArgumentException e) {
 			mooncloudResponse.setErrorCode(MooncloudResponse.ERROR_CODE);
 			mooncloudResponse.setMsg(e.toString());
