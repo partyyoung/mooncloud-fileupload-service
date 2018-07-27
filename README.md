@@ -242,7 +242,7 @@ spring.servlet.multipart.max-request-size=-1
 path目录下的文件和文件夹列表。
 
 #### 业务参数
-* path: 默认为根目录。   
+* path: 默认为根目录。relativePath   
 
 #### 返回参数
 * success: true/false
@@ -314,7 +314,7 @@ path目录下的文件和文件夹列表。
 在path下创建name的文件夹。
 
 #### 业务参数
-* path: 默认为根目录。   
+* path: 默认为根目录。relativePath   
 * name: 文件夹名。   
 
 #### 返回参数
@@ -394,7 +394,7 @@ path目录下的文件和文件夹列表。
 删除多个文件或文件夹。
 
 #### 业务参数
-* path: 默认为根目录。   
+* path: 默认为根目录。relativePath   
 * names: 文件或文件夹名。List\<String\> names。  
 
 #### 返回参数
