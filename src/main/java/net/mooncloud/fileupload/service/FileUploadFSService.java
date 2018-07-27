@@ -15,6 +15,7 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import com.alibaba.fastjson.JSON;
 
@@ -73,16 +74,27 @@ public class FileUploadFSService {
 		return ls(path.getParent());
 	}
 
-	public Map<String, Object> rmr(String path) throws Exception {
+	public long rmr(String path, List<String> names) throws Exception {
+		long count = 0;
+		for (String name : names) {
+			if (StringUtils.isEmpty(name.trim())) {
+				continue;
+			}
+			count += rmr(Paths.get(path, name));
+		}
+		return count;
+	}
+
+	public long rmr(String path) throws Exception {
 		return rmr(Paths.get(path));
 	}
 
-	public Map<String, Object> rmr(Path path) throws Exception {
+	public long rmr(Path path) throws Exception {
 		try {
 			if (Files.isDirectory(path)) {
 				try (DirectoryStream<Path> stream = Files.newDirectoryStream(path)) {
 					for (Path e : stream) {
-						rmr(e);
+						return 1 + rmr(e);
 					}
 				} catch (IOException e) {
 					e.printStackTrace();
@@ -92,7 +104,7 @@ public class FileUploadFSService {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		return ls(path.getParent());
+		return 1;
 	}
 
 	private Map<String, Object> getFileAttributes(Path e) throws Exception {

@@ -1,12 +1,15 @@
 package net.mooncloud.fileupload.controller;
 
 import java.io.IOException;
+import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.List;
 import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -69,6 +72,8 @@ public class FileUploadFSController {
 	public Object mkdir(@RequestParam(value = "path", defaultValue = "") String path, String name) {
 		MooncloudResponse mooncloudResponse = new MooncloudResponse();
 		try {
+			Assert.isTrue(name != null && !name.trim().isEmpty(), "name为空");
+
 			Map<String, Object> r = fileUploadFSService
 					.mkdir(Paths.get(fileUploadService.getFileHttpRoot(), path, name));
 			mooncloudResponse.setBody(r);
@@ -80,11 +85,31 @@ public class FileUploadFSController {
 	}
 
 	@RequestMapping(value = "/rmr", method = { RequestMethod.GET, RequestMethod.POST })
-	public Object rmr(@RequestParam(value = "path", defaultValue = "") String path, String name) {
+	public Object rmr(@RequestParam(value = "path", defaultValue = "") String path, List<String> names) {
 		MooncloudResponse mooncloudResponse = new MooncloudResponse();
 		try {
-			Map<String, Object> r = fileUploadFSService
-					.rmr(Paths.get(fileUploadService.getFileHttpRoot(), path, name));
+			Assert.isTrue(names != null && !names.isEmpty(), "name为空");
+
+			Path absolutePath = Paths.get(fileUploadService.getFileHttpRoot(), path);
+			fileUploadFSService.rmr(absolutePath.toString(), names);
+			Map<String, Object> r = fileUploadFSService.ls(absolutePath);
+			mooncloudResponse.setBody(r);
+		} catch (Exception e) {
+			mooncloudResponse.setErrorCode(MooncloudResponse.ERROR_CODE);
+			mooncloudResponse.setMsg(e.toString());
+		}
+		return mooncloudResponse;
+	}
+
+	@RequestMapping(value = "/rm", method = { RequestMethod.GET, RequestMethod.POST })
+	public Object rm(@RequestParam(value = "path", defaultValue = "") String path, String name) {
+		MooncloudResponse mooncloudResponse = new MooncloudResponse();
+		try {
+			Assert.isTrue(name != null && !name.trim().isEmpty(), "name为空");
+
+			Path absolutePath = Paths.get(fileUploadService.getFileHttpRoot(), path, name);
+			long count = fileUploadFSService.rmr(absolutePath);
+			Map<String, Object> r = fileUploadFSService.ls(absolutePath.getParent());
 			mooncloudResponse.setBody(r);
 		} catch (Exception e) {
 			mooncloudResponse.setErrorCode(MooncloudResponse.ERROR_CODE);
