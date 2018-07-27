@@ -37,13 +37,14 @@ spring.servlet.multipart.max-request-size=-1
 | 1. | GET | [/oss](#oss) | 可以作为服务状态接口  |
 | 2. | POST | [/oss/upload](#ossupload) | 文件上传到默认path下。 |
 | 3. | POST | [/oss/upload2path](#ossupload2path) | 文件上传到指定的path下。 |
-| 4. | POST | [/oss/upload2http](#ossupload2http) | 文件上传到文件服务器的http-root/path下。 |
-| 5. | GET | [/oss/env](#ossenv) | 获取Service环境变量值：fileUploadPath、fileHttpRoot和fileHttpUrl。 |
-| 6. | GET/POST | [/oss/env/update](#ossenvupdate) | 更新Service环境变量值。 |
-| 7. | GET/POST | [/oss/fs/ls](#ossfsls) | 当前path下的文件和文件夹列表。 |
-| 8. | GET/POST | [/oss/fs/mkdir](#ossfsmkdir) | 在path下创建name的文件夹。 |
-| 9. | GET/POST | [/oss/fs/rm](#ossfsrm) | 删除单个文件或文件夹。 |
-| 10. | GET/POST | [/oss/fs/rmr](#ossfsrmr) | 删除多个文件或文件夹。 |
+| 4. | POST | [/oss/upload2http1](#ossupload2http1) | 单个文件上传到文件服务器的http-root/path下。 |
+| 5. | POST | [/oss/upload2http](#ossupload2http) | 多个文件上传到文件服务器的http-root/path下。 |
+| 6. | GET | [/oss/env](#ossenv) | 获取Service环境变量值：fileUploadPath、fileHttpRoot和fileHttpUrl。 |
+| 7. | GET/POST | [/oss/env/update](#ossenvupdate) | 更新Service环境变量值。 |
+| 8. | GET/POST | [/oss/fs/ls](#ossfsls) | 当前path下的文件和文件夹列表。 |
+| 9. | GET/POST | [/oss/fs/mkdir](#ossfsmkdir) | 在path下创建name的文件夹。 |
+| 10. | GET/POST | [/oss/fs/rm](#ossfsrm) | 删除单个文件或文件夹。 |
+| 11. | GET/POST | [/oss/fs/rmr](#ossfsrmr) | 删除多个文件或文件夹。 |
 
 ### /oss
 可以作为服务状态接口
@@ -135,11 +136,20 @@ spring.servlet.multipart.max-request-size=-1
 }
 ```
 
+### /oss/upload2http1
+单个文件上传到文件服务器的http-root/path下。http-root=$file-upload-service.file-http-root，path为用户指定的路径参数。返回文件的http地址。
+
+#### 业务参数
+* file: MultipartFile
+* path: http-root下的存储路径，可选参数，默认/upload。例如：/static/img
+* rename: 是否重新命名，可选参数，默认true。当前时间戳+文件名16位MD5+后缀名，作为新的文件名
+* overwrite: 是否覆盖服务器文件，可选参数，默认true。如果path下有相同名字的文件，将覆盖
+
 ### /oss/upload2http
 文件上传到文件服务器的http-root/path下。http-root=$file-upload-service.file-http-root，path为用户指定的路径参数。返回文件的http地址。
 
 #### 业务参数
-* file: 
+* file: List<MultipartFile>
 * path: http-root下的存储路径，可选参数，默认/upload。例如：/static/img
 * rename: 是否重新命名，可选参数，默认true。当前时间戳+文件名16位MD5+后缀名，作为新的文件名
 * overwrite: 是否覆盖服务器文件，可选参数，默认true。如果path下有相同名字的文件，将覆盖
@@ -163,7 +173,7 @@ spring.servlet.multipart.max-request-size=-1
 {
 	"errorCode": null,
 	"msg": null,
-	"body": {
+	"body": [{
 		"file": "/home/ftpuser/static/img/1527081063540-b5cc79f8e97f56ad.java",
 		"taken": 1,
 		"start": 1526983060278,
@@ -172,7 +182,7 @@ spring.servlet.multipart.max-request-size=-1
 		"originalFilename": "MultipartFileUpload.java",
 		"url": "http://127.0.0.1/static/img/1527081063540-b5cc79f8e97f56ad.java",
 		"url2": "http://127.0.0.1/static/img/1527081063540-b5cc79f8e97f56ad.java"
-	},
+	}],
 	"success": true
 }
 ```
