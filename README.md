@@ -41,7 +41,7 @@ spring.servlet.multipart.max-request-size=-1
 | 5. | GET | /oss/env | 获取Service环境变量值：fileUploadPath、fileHttpRoot和fileHttpUrl。 |
 | 6. | POST | /oss/env/update | 更新Service环境变量值。 |
 
-/oss
+### /oss
 可以作为服务状态接口
 
 #### 业务参数
