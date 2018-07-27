@@ -34,7 +34,7 @@ spring.servlet.multipart.max-request-size=-1
 
 | id | 类型 | 接口                       | 说明                    |
 | -- | ---- | -------------------------- | ----------------------- |
-| 1. | GET | [/oss](oss) | 可以作为服务状态接口  |
+| 1. | GET | [/oss](#oss) | 可以作为服务状态接口  |
 | 2. | POST | /oss/upload | 文件上传到默认path下。 |
 | 3. | POST | /oss/upload2path | 文件上传到指定的path下。 |
 | 4. | POST | /oss/upload2http | 文件上传到文件服务器的http-root/path下。 |
