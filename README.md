@@ -39,10 +39,10 @@ spring.servlet.multipart.max-request-size=-1
 | 3. | POST | [/oss/upload2path](#ossupload2path) | 文件上传到指定的path下。 |
 | 4. | POST | [/oss/upload2http](#ossupload2http) | 文件上传到文件服务器的http-root/path下。 |
 | 5. | GET | [/oss/env](#ossenv) | 获取Service环境变量值：fileUploadPath、fileHttpRoot和fileHttpUrl。 |
-| 6. | POST | [/oss/env/update](#ossenvupdate) | 更新Service环境变量值。 |
-| 7. | POST | [/oss/fs/ls](#ossfsls) | 更新Service环境变量值。 |
-| 8. | POST | [/oss/fs/mkdir](#ossfsmkdir) | 更新Service环境变量值。 |
-| 9. | POST | [/oss/fs/rmr](#ossfsrmr) | 更新Service环境变量值。 |
+| 6. | GET/POST | [/oss/env/update](#ossenvupdate) | 更新Service环境变量值。 |
+| 7. | GET/POST | [/oss/fs/ls](#ossfsls) | 当前path下的文件和文件夹列表。 |
+| 8. | GET/POST | [/oss/fs/mkdir](#ossfsmkdir) | 在path下创建name的文件夹。 |
+| 9. | GET/POST | [/oss/fs/rmr](#ossfsrmr) | 删除文件或文件夹。 |
 
 ### /oss
 可以作为服务状态接口
@@ -63,7 +63,7 @@ spring.servlet.multipart.max-request-size=-1
 }
 ```
 
-### 2. POST /oss/upload   
+### /oss/upload   
 文件上传到默认path下。以service启动时指定的file-upload-service.file-upload-path为准
 
 #### 业务参数
@@ -98,7 +98,7 @@ spring.servlet.multipart.max-request-size=-1
 }
 ```
 
-### 3. POST /oss/upload2path   
+### /oss/upload2path   
 文件上传到指定的path下。
 
 #### 业务参数
@@ -134,7 +134,7 @@ spring.servlet.multipart.max-request-size=-1
 }
 ```
 
-### 4. POST /oss/upload2http
+### /oss/upload2http
 文件上传到文件服务器的http-root/path下。http-root=$file-upload-service.file-http-root，path为用户指定的路径参数。返回文件的http地址。
 
 #### 业务参数
@@ -176,7 +176,7 @@ spring.servlet.multipart.max-request-size=-1
 }
 ```
 
-### 5. GET /oss/env
+### /oss/env
 获取Service环境变量值：fileUploadPath、fileHttpRoot和fileHttpUrl。
 
 #### 业务参数
@@ -205,7 +205,7 @@ spring.servlet.multipart.max-request-size=-1
 }
 ```
 
-### 6. POST/GET /oss/env/update
+### /oss/env/update
 更新Service环境变量值。
 
 #### 业务参数
@@ -232,6 +232,224 @@ spring.servlet.multipart.max-request-size=-1
 		"fileUploadPath": "/tmp",
 		"fileHttpRoot": "/home/ftpuser/static",
 		"fileHttpUrl": "http://172.16.1.78/static"
+	},
+	"success": true
+}
+```
+
+### /oss/fs/ls
+path目录下的文件和文件夹列表。
+
+#### 业务参数
+* path: 默认为根目录。   
+
+#### 返回参数
+* success: true/false
+* errorCode: 错误码
+* msg: 错误信息
+* body: 结果信息   
+    - files: 文件列表   
+    - directorys: 文件夹列表   
+    - path: 当前目录   
+    - parentPath: 父目录   
+
+#### 返回示例
+```
+{
+	"code": "00000",
+	"message": true,
+	"errorCode": null,
+	"msg": null,
+	"body": {
+		"files": [{
+			"extension": "",
+			"lastAccessTime": "2018-06-07 08:22:10",
+			"lastModifiedTime": "2018-06-07 08:22:10",
+			"size": 0,
+			"creationTime": "2018-06-07 08:22:10",
+			"isSymbolicLink": false,
+			"relativePath": "/config-err-s01C3b",
+			"isRegularFile": true,
+			"name": "config-err-s01C3b",
+			"absolutePath": "/tmp/config-err-s01C3b",
+			"isOther": false,
+			"isDirectory": false
+		}],
+		"path": "",
+		"directorys": [{
+			"extension": "",
+			"lastAccessTime": "2018-07-27 02:43:39",
+			"lastModifiedTime": "2018-06-27 01:04:52",
+			"size": 4096,
+			"creationTime": "2018-06-27 01:04:52",
+			"isSymbolicLink": false,
+			"relativePath": "/gnome-software-FJ4DLZ",
+			"isRegularFile": false,
+			"name": "gnome-software-FJ4DLZ",
+			"absolutePath": "/tmp/gnome-software-FJ4DLZ",
+			"isOther": false,
+			"isDirectory": true
+		}, {
+			"extension": "",
+			"lastAccessTime": "2018-06-27 03:02:11",
+			"lastModifiedTime": "2018-06-07 08:22:01",
+			"size": 4096,
+			"creationTime": "2018-06-07 08:22:01",
+			"isSymbolicLink": false,
+			"relativePath": "/.X11-unix",
+			"isRegularFile": false,
+			"name": ".X11-unix",
+			"absolutePath": "/tmp/.X11-unix",
+			"isOther": false,
+			"isDirectory": true
+		}],
+		"parentPath": ""
+	},
+	"success": true
+}
+```
+
+### /oss/fs/mkdir
+在path下创建name的文件夹。
+
+#### 业务参数
+* path: 默认为根目录。   
+* name: 文件夹名。   
+
+#### 返回参数
+* success: true/false
+* errorCode: 错误码
+* msg: 错误信息
+* body: 结果信息   
+    - files: 文件列表   
+    - directorys: 文件夹列表   
+    - path: 当前目录   
+    - parentPath: 父目录   
+
+#### 返回示例
+```
+{
+	"code": "00000",
+	"message": true,
+	"errorCode": null,
+	"msg": null,
+	"body": {
+		"files": [{
+			"extension": "",
+			"lastAccessTime": "2018-06-07 08:22:10",
+			"lastModifiedTime": "2018-06-07 08:22:10",
+			"size": 0,
+			"creationTime": "2018-06-07 08:22:10",
+			"isSymbolicLink": false,
+			"relativePath": "/config-err-s01C3b",
+			"isRegularFile": true,
+			"name": "config-err-s01C3b",
+			"absolutePath": "/tmp/config-err-s01C3b",
+			"isOther": false,
+			"isDirectory": false
+		}],
+		"path": "",
+		"directorys": [{
+			"extension": "",
+			"lastAccessTime": "2018-07-27 02:43:39",
+			"lastModifiedTime": "2018-06-27 01:04:52",
+			"size": 4096,
+			"creationTime": "2018-06-27 01:04:52",
+			"isSymbolicLink": false,
+			"relativePath": "/gnome-software-FJ4DLZ",
+			"isRegularFile": false,
+			"name": "gnome-software-FJ4DLZ",
+			"absolutePath": "/tmp/gnome-software-FJ4DLZ",
+			"isOther": false,
+			"isDirectory": true
+		}, {
+			"extension": "",
+			"lastAccessTime": "2018-06-27 03:02:11",
+			"lastModifiedTime": "2018-06-07 08:22:01",
+			"size": 4096,
+			"creationTime": "2018-06-07 08:22:01",
+			"isSymbolicLink": false,
+			"relativePath": "/.X11-unix",
+			"isRegularFile": false,
+			"name": ".X11-unix",
+			"absolutePath": "/tmp/.X11-unix",
+			"isOther": false,
+			"isDirectory": true
+		}],
+		"parentPath": ""
+	},
+	"success": true
+}
+```
+
+### /oss/fs/rmr
+删除文件或文件夹。
+
+#### 业务参数
+* path: 默认为根目录。   
+* name: 文件或文件夹名。  
+
+#### 返回参数
+* success: true/false
+* errorCode: 错误码
+* msg: 错误信息
+* body: 结果信息   
+    - files: 文件列表   
+    - directorys: 文件夹列表   
+    - path: 当前目录   
+    - parentPath: 父目录   
+
+#### 返回示例
+```
+{
+	"code": "00000",
+	"message": true,
+	"errorCode": null,
+	"msg": null,
+	"body": {
+		"files": [{
+			"extension": "",
+			"lastAccessTime": "2018-06-07 08:22:10",
+			"lastModifiedTime": "2018-06-07 08:22:10",
+			"size": 0,
+			"creationTime": "2018-06-07 08:22:10",
+			"isSymbolicLink": false,
+			"relativePath": "/config-err-s01C3b",
+			"isRegularFile": true,
+			"name": "config-err-s01C3b",
+			"absolutePath": "/tmp/config-err-s01C3b",
+			"isOther": false,
+			"isDirectory": false
+		}],
+		"path": "",
+		"directorys": [{
+			"extension": "",
+			"lastAccessTime": "2018-07-27 02:43:39",
+			"lastModifiedTime": "2018-06-27 01:04:52",
+			"size": 4096,
+			"creationTime": "2018-06-27 01:04:52",
+			"isSymbolicLink": false,
+			"relativePath": "/gnome-software-FJ4DLZ",
+			"isRegularFile": false,
+			"name": "gnome-software-FJ4DLZ",
+			"absolutePath": "/tmp/gnome-software-FJ4DLZ",
+			"isOther": false,
+			"isDirectory": true
+		}, {
+			"extension": "",
+			"lastAccessTime": "2018-06-27 03:02:11",
+			"lastModifiedTime": "2018-06-07 08:22:01",
+			"size": 4096,
+			"creationTime": "2018-06-07 08:22:01",
+			"isSymbolicLink": false,
+			"relativePath": "/.X11-unix",
+			"isRegularFile": false,
+			"name": ".X11-unix",
+			"absolutePath": "/tmp/.X11-unix",
+			"isOther": false,
+			"isDirectory": true
+		}],
+		"parentPath": ""
 	},
 	"success": true
 }
