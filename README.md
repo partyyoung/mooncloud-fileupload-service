@@ -42,7 +42,8 @@ spring.servlet.multipart.max-request-size=-1
 | 6. | GET/POST | [/oss/env/update](#ossenvupdate) | 更新Service环境变量值。 |
 | 7. | GET/POST | [/oss/fs/ls](#ossfsls) | 当前path下的文件和文件夹列表。 |
 | 8. | GET/POST | [/oss/fs/mkdir](#ossfsmkdir) | 在path下创建name的文件夹。 |
-| 9. | GET/POST | [/oss/fs/rmr](#ossfsrmr) | 删除文件或文件夹。 |
+| 9. | GET/POST | [/oss/fs/rm](#ossfsrm) | 删除单个文件或文件夹。 |
+| 10. | GET/POST | [/oss/fs/rmr](#ossfsrmr) | 删除多个文件或文件夹。 |
 
 ### /oss
 可以作为服务状态接口
