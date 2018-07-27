@@ -382,12 +382,19 @@ path目录下的文件和文件夹列表。
 }
 ```
 
-### /oss/fs/rmr
-删除文件或文件夹。
+### /oss/fs/rm
+删除单个文件或文件夹。
 
 #### 业务参数
 * path: 默认为根目录。   
 * name: 文件或文件夹名。  
+
+### /oss/fs/rmr
+删除多个文件或文件夹。
+
+#### 业务参数
+* path: 默认为根目录。   
+* names: 文件或文件夹名。List<String> names。  
 
 #### 返回参数
 * success: true/false
