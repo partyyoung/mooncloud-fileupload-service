@@ -7,7 +7,7 @@ SDK参见：mooncloud-fileupload-sdk (java&python) https://github.com/partyyoung
 
 ## Startup
 ```
-nohup java -jar mooncloud-fileupload-service-0.0.1-SNAPSHOT.jar --server.port=12121 &
+nohup java -jar mooncloud-fileupload-service-0.0.2-SNAPSHOT.jar --server.port=12121 --file-upload-service.file-http-root=/data/html/oss --file-upload-service.file-http-url=http://172.16.1.78:12121/oss --file-upload-service.file-http-url2=http://172.16.1.78/oss &
 ```
 
 ### 自定义参数
@@ -32,6 +32,11 @@ spring.servlet.multipart.max-request-size=-1
 ## APIs
 服务地址：http://10.10.10.124:12121/upload
 
+1. [upload上传接口](#upload上传接口)
+1. [fs文件管理接口](#fs文件管理接口)
+1. [user用户管理接口](#user用户管理接口)
+
+## upload上传接口
 | id | 类型 | 接口                       | 说明                    |
 | -- | ---- | -------------------------- | ----------------------- |
 | 1. | GET | [/oss](#oss) | 可以作为服务状态接口  |
