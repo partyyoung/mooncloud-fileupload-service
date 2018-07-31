@@ -410,7 +410,7 @@ path目录下的文件和文件夹列表。
 
 #### 业务参数
 * path: 默认为根目录。relativePath   
-* names: 文件或文件夹名。List\<String\> names。  
+* names: 文件或文件夹名。List\<String\> names，以逗号连接。  
 
 #### 返回参数
 * success: true/false
