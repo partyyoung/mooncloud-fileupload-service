@@ -3,7 +3,7 @@ package net.mooncloud.fileupload.controller;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.List;
+import java.util.ArrayList;
 import java.util.Map;
 
 import org.slf4j.Logger;
@@ -26,7 +26,7 @@ public class FileUploadFSController {
 	private final static Logger LOGGER = LoggerFactory.getLogger(FileUploadFSController.class);
 
 	@Autowired
-	FileUploadFSService fileUploadFSService;
+	private FileUploadFSService fileUploadFSService;
 
 	@Autowired
 	private FileUploadService fileUploadService;
@@ -34,20 +34,8 @@ public class FileUploadFSController {
 	@RequestMapping()
 	public Object home() throws IOException {
 		MooncloudResponse mooncloudResponse = new MooncloudResponse();
-		mooncloudResponse.setBody("file-upload-manager");
+		mooncloudResponse.setBody("file-upload-fs-manager");
 		return mooncloudResponse;
-	}
-
-	/**
-	 * @param username
-	 * @param password
-	 *            MD5
-	 * @return
-	 * @throws IOException
-	 */
-	@RequestMapping(value = "/login", method = RequestMethod.POST)
-	public Object login(String username, String password) throws IOException {
-		return null;
 	}
 
 	@RequestMapping(value = "/ls", method = { RequestMethod.GET, RequestMethod.POST })
@@ -85,13 +73,13 @@ public class FileUploadFSController {
 	}
 
 	@RequestMapping(value = "/rmr", method = { RequestMethod.GET, RequestMethod.POST })
-	public Object rmr(@RequestParam(value = "path", defaultValue = "") String path, List<String> names) {
+	public Object rmr(@RequestParam(value = "path", defaultValue = "") String path, String names) {
 		MooncloudResponse mooncloudResponse = new MooncloudResponse();
 		try {
-			Assert.isTrue(names != null && !names.isEmpty(), "name为空");
+			Assert.isTrue(names != null && !names.isEmpty(), "names为空");
 
 			Path absolutePath = Paths.get(fileUploadService.getFileHttpRoot(), path);
-			fileUploadFSService.rmr(absolutePath.toString(), names);
+			fileUploadFSService.rmr(absolutePath.toString(), names.split(","));
 			Map<String, Object> r = fileUploadFSService.ls(absolutePath);
 			mooncloudResponse.setBody(r);
 		} catch (Exception e) {

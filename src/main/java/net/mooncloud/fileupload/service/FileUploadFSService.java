@@ -74,7 +74,7 @@ public class FileUploadFSService {
 		return ls(path.getParent());
 	}
 
-	public long rmr(String path, List<String> names) throws Exception {
+	public long rmr(String path, String[] names) throws Exception {
 		long count = 0;
 		for (String name : names) {
 			if (StringUtils.isEmpty(name.trim())) {
@@ -90,11 +90,12 @@ public class FileUploadFSService {
 	}
 
 	public long rmr(Path path) throws Exception {
+		long count = 1;
 		try {
 			if (Files.isDirectory(path)) {
 				try (DirectoryStream<Path> stream = Files.newDirectoryStream(path)) {
 					for (Path e : stream) {
-						return 1 + rmr(e);
+						count += rmr(e);
 					}
 				} catch (IOException e) {
 					e.printStackTrace();
@@ -104,7 +105,7 @@ public class FileUploadFSService {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		return 1;
+		return count;
 	}
 
 	private Map<String, Object> getFileAttributes(Path e) throws Exception {
