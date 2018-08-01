@@ -50,6 +50,7 @@ spring.servlet.multipart.max-request-size=-1
 | 9. | GET/POST | [/oss/fs/mkdir](#ossfsmkdir) | 在path下创建name的文件夹。 |
 | 10. | GET/POST | [/oss/fs/rm](#ossfsrm) | 删除单个文件或文件夹。 |
 | 11. | GET/POST | [/oss/fs/rmr](#ossfsrmr) | 删除多个文件或文件夹。 |
+| 12. | GET/POST | [/oss/fs/chattra](#ossfschattra) | 设置多个文件或文件夹是否可以被删除。 |
 
 ### /oss
 可以作为服务状态接口
@@ -483,6 +484,14 @@ path目录下的文件和文件夹列表。
 	"success": true
 }
 ```
+
+### /oss/fs/chattra
+设置多个文件或文件夹是否可以被删除。
+
+#### 业务参数
+* path: 默认为根目录。   
+* name: 文件或文件夹名。List\<String\> names，以逗号连接。   
+* deletable: true/false。
 
 ## 服务调优
 ### 设置文件上传大小限制
