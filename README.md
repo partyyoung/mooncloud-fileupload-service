@@ -265,6 +265,12 @@ path目录下的文件和文件夹列表。
 * msg: 错误信息
 * body: 结果信息   
     - files: 文件列表   
+        - extension: 扩展名   
+        - absolutePath: 绝对路径   
+        - relativePath: 相对路径   
+        - size: 文件大小(bytes)   
+        - deletable: 是否能被删除   
+        - isDirectory: 是否是文件夹   
     - directorys: 文件夹列表   
     - path: 当前目录   
     - parentPath: 父目录   
