@@ -105,4 +105,22 @@ public class FileUploadFSController {
 		}
 		return mooncloudResponse;
 	}
+
+	@RequestMapping(value = "/chattra", method = { RequestMethod.GET, RequestMethod.POST })
+	public Object chattra(@RequestParam(value = "path", defaultValue = "") String path, String names,
+			boolean deletable) {
+		MooncloudResponse mooncloudResponse = new MooncloudResponse();
+		try {
+			Assert.isTrue(names != null && !names.isEmpty(), "names为空");
+
+			Path absolutePath = Paths.get(fileUploadService.getFileHttpRoot(), path);
+			long count = fileUploadFSService.chattra(absolutePath.toString(), names.split(","), deletable);
+			Map<String, Object> r = fileUploadFSService.ls(absolutePath);
+			mooncloudResponse.setBody(r);
+		} catch (Exception e) {
+			mooncloudResponse.setErrorCode(MooncloudResponse.ERROR_CODE);
+			mooncloudResponse.setMsg(e.toString());
+		}
+		return mooncloudResponse;
+	}
 }
