@@ -259,6 +259,7 @@ path目录下的文件和文件夹列表。
 
 #### 业务参数
 * path: 默认为根目录。relativePath   
+* orderby: 默认为lastModifiedTime:desc;name:desc。   
 
 #### 返回参数
 * success: true/false
@@ -266,6 +267,7 @@ path目录下的文件和文件夹列表。
 * msg: 错误信息
 * body: 结果信息   
     - files: 文件列表   
+        - name: 文件/文件夹名   
         - extension: 扩展名   
         - absolutePath: 绝对路径   
         - relativePath: 相对路径   

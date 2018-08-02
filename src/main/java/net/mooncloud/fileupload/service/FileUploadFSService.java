@@ -8,14 +8,13 @@ import java.nio.file.DirectoryStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.nio.file.attribute.PosixFileAttributes;
-import java.nio.file.attribute.PosixFilePermission;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.ConfigurationProperties;
@@ -31,13 +30,23 @@ public class FileUploadFSService {
 
 	private static final SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
 
-	private Path basePath;
+	private static final String ORDERBY = "lastModifiedTime:desc;name:desc";
+	private static final String ORDERBYDESC = "DESC";
+	private static final String ORDERBYASC = "ASC";
 
 	public Map<String, Object> ls(String path) throws Exception {
-		return ls(Paths.get(path));
+		return ls(Paths.get(path), ORDERBY);
+	}
+
+	public Map<String, Object> ls(String path, String orderby) throws Exception {
+		return ls(Paths.get(path), orderby);
 	}
 
 	public Map<String, Object> ls(Path path) throws Exception {
+		return ls(path, ORDERBY);
+	}
+
+	public Map<String, Object> ls(Path path, String orderby) throws Exception {
 		Map<String, Object> r = new HashMap<String, Object>(2);
 		List<Map> fileList = new ArrayList<Map>();
 		List<Map> directoryList = new ArrayList<Map>();
@@ -85,7 +94,34 @@ public class FileUploadFSService {
 		String parentPath = pid == -1 ? pathStr : pathStr.substring(0, pid);
 		r.put("parentPath", parentPath);
 
+		// sort
+		String[] orderbys = orderby.split(";");
+		sort(directoryList, orderbys);
+		sort(fileList, orderbys);
+
 		return r;
+	}
+
+	private void sort(List<Map> fileList, String[] orderbys) {
+		Collections.sort(fileList, new Comparator<Map>() {
+			public int compare(Map fileAttributes, Map otherFileAttributes) {
+				for (String ob : orderbys) {
+					String[] obs = ob.split(":");
+					String order = obs[0];
+					String desc = obs.length < 2 ? ORDERBYASC : obs[1].toUpperCase();
+					int compare = fileAttributes.get(order).toString()
+							.compareTo(otherFileAttributes.get(order).toString());
+					if ("size".equals(order.toLowerCase())) {
+						compare = Long.compare(Long.parseLong(fileAttributes.get("size").toString()),
+								Long.parseLong(otherFileAttributes.get("size").toString()));
+					}
+					if (compare != 0) {
+						return compare * (ORDERBYDESC.equals(desc) ? -1 : 1);
+					}
+				}
+				return 0;
+			}
+		});
 	}
 
 	public Map<String, Object> mkdir(String path) throws Exception {

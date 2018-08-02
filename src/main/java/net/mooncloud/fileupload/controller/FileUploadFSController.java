@@ -39,11 +39,12 @@ public class FileUploadFSController {
 	}
 
 	@RequestMapping(value = "/ls", method = { RequestMethod.GET, RequestMethod.POST })
-	public Object ls(@RequestParam(value = "path", defaultValue = "") String path) {
+	public Object ls(@RequestParam(value = "path", defaultValue = "") String path,
+			@RequestParam(value = "orderby", defaultValue = "lastModifiedTime:desc;name:desc") String orderby) {
 		MooncloudResponse mooncloudResponse = new MooncloudResponse();
 		try {
 			String absolutePath = fileUploadService.getFileHttpRoot() + "/" + path;
-			Map<String, Object> r = fileUploadFSService.ls(absolutePath);
+			Map<String, Object> r = fileUploadFSService.ls(absolutePath, orderby);
 			// r.put("path", path);
 			// int pid = path.lastIndexOf('/');
 			// String parentPath = pid == -1 ? path : path.substring(0, pid);

@@ -52,7 +52,10 @@ public class FileUploadService {
 		if (rename) {
 			StringBuilder stringBuider = new StringBuilder();
 			stringBuider.append(System.currentTimeMillis()).append("-").append(MD5Hash.digest(fileName).toString16());
-			stringBuider.append(fileName.substring(fileName.indexOf('.')));
+			int extension = fileName.indexOf('.');
+			if (extension > -1) {
+				stringBuider.append(fileName.substring(extension));
+			}
 			fileName = stringBuider.toString();
 		}
 
