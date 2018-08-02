@@ -31,17 +31,18 @@ public class ShiroConfiguration {
 
 		// 配置访问权限
 		LinkedHashMap<String, String> filterChainDefinitionMap = new LinkedHashMap<>();
-//		filterChainDefinitionMap.put("/upload/oss/fs/user/login", "anon"); // 表示可以匿名访问
-//		filterChainDefinitionMap.put("/upload/oss/fs/user/get", "anon"); // 表示可以匿名访问
-//		filterChainDefinitionMap.put("/static/**", "anon");
-//		filterChainDefinitionMap.put("/upload/oss/fs/*", "authc");// 表示需要认证才可以访问
-//		filterChainDefinitionMap.put("/upload/oss/fs/**", "authc");// 表示需要认证才可以访问
+		// filterChainDefinitionMap.put("/upload/oss/fs/user/login", "anon"); //
+		// 表示可以匿名访问
+		// filterChainDefinitionMap.put("/upload/oss/fs/user/get", "anon"); // 表示可以匿名访问
+		// filterChainDefinitionMap.put("/static/**", "anon");
+		// filterChainDefinitionMap.put("/upload/oss/fs/*", "authc");// 表示需要认证才可以访问
+		// filterChainDefinitionMap.put("/upload/oss/fs/**", "authc");// 表示需要认证才可以访问
 		// filterChainDefinitionMap.put("/*", "authc");// 表示需要认证才可以访问
 		// filterChainDefinitionMap.put("/**", "authc");// 表示需要认证才可以访问
 		// filterChainDefinitionMap.put("/*.*", "authc");
-		 filterChainDefinitionMap.put("/*", "anon"); // 表示可以匿名访问
-		 filterChainDefinitionMap.put("/**", "anon"); // 表示可以匿名访问
-		 filterChainDefinitionMap.put("/*.*", "anon"); // 表示可以匿名访问
+		filterChainDefinitionMap.put("/*", "anon"); // 表示可以匿名访问
+		filterChainDefinitionMap.put("/**", "anon"); // 表示可以匿名访问
+		filterChainDefinitionMap.put("/*.*", "anon"); // 表示可以匿名访问
 		bean.setFilterChainDefinitionMap(filterChainDefinitionMap);
 		return bean;
 	}

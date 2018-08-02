@@ -54,14 +54,27 @@ public class FileUploadFSService {
 		r.put("directorys", directoryList);
 
 		// getDeletable
+		boolean parentDeletable = true;
+		try {
+			ArrayList<String> IN_LIST = execCmd("lsattr -d " + path.toString(), null).get(0);
+			for (String inStr : IN_LIST) {
+				String[] attrFile = inStr.split(" ", 2);
+				if (attrFile[0].toCharArray()[5] == 'a' || attrFile[0].toCharArray()[4] == 'i') {
+					parentDeletable = false;
+				}
+			}
+		} catch (Exception e) {
+			// e.printStackTrace();
+		}
 		Map<String, Boolean> fileDetetableMap = new HashMap<String, Boolean>(1);
 		try {
 			ArrayList<String> IN_LIST = execCmd("lsattr " + path.toString(), null).get(0);
 			for (String inStr : IN_LIST) {
 				String[] attrFile = inStr.split(" ", 2);
-				char a = attrFile[0].toCharArray()[5];
-				if (a == 'a') {
-					fileDetetableMap.put(attrFile[1], false);
+				if (attrFile[0].toCharArray()[5] == 'a' || attrFile[0].toCharArray()[4] == 'i') {
+					fileDetetableMap.put(attrFile[1], parentDeletable && false);
+				} else {
+					fileDetetableMap.put(attrFile[1], parentDeletable && true);
 				}
 			}
 		} catch (Exception e) {
@@ -77,9 +90,7 @@ public class FileUploadFSService {
 				} else {
 					fileList.add(fileAttributes);
 				}
-				if (fileDetetableMap.containsKey(fileAttributes.get("absolutePath").toString())) {
-					fileAttributes.put("deletable", false);
-				}
+				fileAttributes.put("deletable", fileDetetableMap.get(fileAttributes.get("absolutePath").toString()));
 			}
 		} catch (IOException e) {
 			throw e;

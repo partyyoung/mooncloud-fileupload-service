@@ -6,6 +6,7 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Map;
 
+import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -73,6 +74,7 @@ public class FileUploadFSController {
 		return mooncloudResponse;
 	}
 
+	// @RequiresRoles("admin")
 	@RequestMapping(value = "/rmr", method = { RequestMethod.GET, RequestMethod.POST })
 	public Object rmr(@RequestParam(value = "path", defaultValue = "") String path, String names) {
 		MooncloudResponse mooncloudResponse = new MooncloudResponse();
@@ -90,6 +92,7 @@ public class FileUploadFSController {
 		return mooncloudResponse;
 	}
 
+	// @RequiresRoles("admin")
 	@RequestMapping(value = "/rm", method = { RequestMethod.GET, RequestMethod.POST })
 	public Object rm(@RequestParam(value = "path", defaultValue = "") String path, String name) {
 		MooncloudResponse mooncloudResponse = new MooncloudResponse();
@@ -107,6 +110,7 @@ public class FileUploadFSController {
 		return mooncloudResponse;
 	}
 
+	// @RequiresRoles("admin")
 	@RequestMapping(value = "/chattra", method = { RequestMethod.GET, RequestMethod.POST })
 	public Object chattra(@RequestParam(value = "path", defaultValue = "") String path, String names,
 			boolean deletable) {
