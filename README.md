@@ -258,8 +258,8 @@ spring.servlet.multipart.max-request-size=-1
 path目录下的文件和文件夹列表。
 
 #### 业务参数
-* path: 默认为根目录。relativePath   
-* orderby: 默认为lastModifiedTime:desc;name:desc。   
+* path: 要ls的文件夹路径，默认为根目录。relativePath   
+* orderby: 排序方式，默认为*lastModifiedTime:desc;name:desc*。格式：order_name[:desc|asc;order_name ...]   
 
 #### 返回参数
 * success: true/false
