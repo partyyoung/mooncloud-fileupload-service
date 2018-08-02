@@ -109,12 +109,11 @@ public class FileUploadFSService {
 					String[] obs = ob.split(":");
 					String order = obs[0];
 					String desc = obs.length < 2 ? ORDERBYASC : obs[1].toUpperCase();
-					int compare = fileAttributes.get(order).toString()
-							.compareTo(otherFileAttributes.get(order).toString());
-					if ("size".equals(order.toLowerCase())) {
-						compare = Long.compare(Long.parseLong(fileAttributes.get("size").toString()),
-								Long.parseLong(otherFileAttributes.get("size").toString()));
+					if (!fileAttributes.containsKey(order)) {
+						continue;
 					}
+					int compare = ((Comparable) fileAttributes.get(order))
+							.compareTo((Comparable) otherFileAttributes.get(order));
 					if (compare != 0) {
 						return compare * (ORDERBYDESC.equals(desc) ? -1 : 1);
 					}
@@ -323,7 +322,10 @@ public class FileUploadFSService {
 		// int existValue = process.exitValue();
 		// System.out.println(existValue);
 
-		System.out.println(execCmd("lsattr /tmp/yangjd/", null).get(0).get(0).split(" ")[0].toCharArray()[5] == 'a');
+		// System.out.println(execCmd("lsattr /tmp/yangjd/", null).get(0).get(0).split("
+		// ")[0].toCharArray()[5] == 'a');
+
+		System.out.println(sdf.parse("2018-08-01T08:10:43").compareTo(sdf.parse("2018-08-02T08:10:43")));
 
 	}
 
