@@ -36,6 +36,15 @@ spring.servlet.multipart.max-request-size=-1
 1. [fs文件管理接口](#fs文件管理接口)
 1. [user用户管理接口](#user用户管理接口)
 
+## user用户管理接口
+| id | 类型 | 接口                       | 说明                    |
+| -- | ---- | -------------------------- | ----------------------- |
+| 1. | GET | [/oss/fs/user/login](#oss) | 登陆；参数：username、password  |
+| 2. | POST | [/oss/upload](#ossupload) | 文件上传到默认path下。 |
+| 3. | POST | [/oss/upload2path](#ossupload2path) | 文件上传到指定的path下。 |
+| 4. | POST | [/oss/upload2http1](#ossupload2http1) | 单个文件上传到文件服务器的http-root/path下。 |
+| 5. | POST | [/oss/upload2http](#ossupload2http) | 多个文件上传到文件服务器的http-root/path下。 |
+
 ## upload上传接口
 | id | 类型 | 接口                       | 说明                    |
 | -- | ---- | -------------------------- | ----------------------- |
