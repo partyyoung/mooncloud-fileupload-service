@@ -159,6 +159,19 @@ public class FileUploadUserController {
 		return mooncloudResponse;
 	}
 
+	@RequiresRoles("admin")
+	@RequestMapping(value = "/grant", method = { RequestMethod.GET, RequestMethod.POST })
+	public Object grantAdmin(String username, Boolean admin) throws IOException {
+		MooncloudResponse mooncloudResponse = new MooncloudResponse();
+		try {
+			mooncloudResponse.setBody(fileUploadUserService.grantAdmin(username, admin));
+		} catch (Exception e) {
+			mooncloudResponse.setErrorCode(MooncloudResponse.ERROR_CODE);
+			mooncloudResponse.setMsg(e.toString());
+		}
+		return mooncloudResponse;
+	}
+
 	@RequestMapping(value = "/logout", method = { RequestMethod.GET, RequestMethod.POST })
 	public Object logout() throws IOException {
 		MooncloudResponse mooncloudResponse = new MooncloudResponse();

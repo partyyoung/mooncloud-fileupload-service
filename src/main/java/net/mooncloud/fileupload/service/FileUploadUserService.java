@@ -70,6 +70,22 @@ public class FileUploadUserService {
 		return USERS.users.get(username);
 	}
 
+	public Object grantAdmin(String username, Boolean admin) {
+		User user;
+		if (USERS.users.containsKey(username)) {
+			user = USERS.users.get(username);
+		} else {
+			return null;
+		}
+		if (admin) {
+			USERS.users.get(username).roles.add("admin");
+		} else {
+			USERS.users.get(username).roles.remove("admin");
+		}
+		saveUser();
+		return user;
+	}
+
 	private void loadUser() {
 		// 1：利用File类找到要操作的对象
 		File file = new File(USER_FILE);
