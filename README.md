@@ -43,6 +43,7 @@ spring.servlet.multipart.max-request-size=-1
 | 2. | GET/POST | [/oss/fs/user/add](#) | 新增用户；参数：username、password(MD5)。 |
 | 3. | GET/POST | [/oss/fs/user/newpwd](#) | 修改密码；参数：username、oldpwd(MD5)、newpwd(MD5)。 |
 | 4. | GET/POST | [/oss/fs/user/resetpwd](#) | 管理员身份给用户重置密码；参数：username、newpwd(MD5)。 |
+| 4. | GET/POST | [/oss/fs/user/grant](#) | 授权或取消管理员身份；参数：username、admin(true/false)。 |
 | 5. | GET/POST | [/oss/fs/user/get](#) | 获取当前用户信息；参数：无。 |
 | 6. | GET/POST | [/oss/fs/user/all](#) | 获取所有用户信息；参数：无。 |
 | 7. | GET/POST | [/oss/fs/user/logout](#) | 登出；参数：无。 |
