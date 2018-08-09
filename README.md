@@ -46,7 +46,8 @@ spring.servlet.multipart.max-request-size=-1
 | 5. | GET/POST | [/oss/fs/user/grant](#) | 授权或取消管理员身份；参数：username、admin(true/false)。 |
 | 6. | GET/POST | [/oss/fs/user/get](#) | 获取当前用户信息；参数：无。 |
 | 7. | GET/POST | [/oss/fs/user/all](#) | 获取所有用户信息；参数：无。 |
-| 8. | GET/POST | [/oss/fs/user/logout](#) | 登出；参数：无。 |
+| 8. | GET/POST | [/oss/fs/user/delete](#) | 删除用户；参数：username。 |
+| 9. | GET/POST | [/oss/fs/user/logout](#) | 登出；参数：无。 |
 
 
 ## upload上传接口
