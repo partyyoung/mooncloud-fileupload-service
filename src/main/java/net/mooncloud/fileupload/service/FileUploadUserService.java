@@ -40,30 +40,30 @@ public class FileUploadUserService {
 			user = new User();
 			USERS.users.put(username, user);
 		}
-		user.username = username;
-		user.password = password;
+		user.setUsername(username);
+		user.setPassword(password);
 
-		Set<String> roles = user.roles;
+		Set<String> roles = user.getRoles();
 		roles.add(role);
 		saveUser();
 	}
 
 	public void newPWD(String username, String password) {
-		USERS.users.get(username).password = password;
+		USERS.users.get(username).setPassword(password);
 		saveUser();
 	}
 
 	public void newRole(String username, String role) {
-		USERS.users.get(username).roles.add(role);
+		USERS.users.get(username).getRoles().add(role);
 		saveUser();
 	}
 
 	public String getPassword(String username) {
-		return USERS.users.get(username).password;
+		return USERS.users.containsKey(username) ? USERS.users.get(username).getPassword() : null;
 	}
 
 	public Set<String> getRoles(String username) {
-		return USERS.users.get(username).roles;
+		return USERS.users.containsKey(username) ? USERS.users.get(username).getRoles() : null;
 	}
 
 	public User getUser(String username) {
@@ -78,12 +78,16 @@ public class FileUploadUserService {
 			return null;
 		}
 		if (admin) {
-			USERS.users.get(username).roles.add("admin");
+			USERS.users.get(username).getRoles().add("admin");
 		} else {
-			USERS.users.get(username).roles.remove("admin");
+			USERS.users.get(username).getRoles().remove("admin");
 		}
 		saveUser();
 		return user;
+	}
+
+	public Object delete(String username) {
+		return USERS.users.remove(username);
 	}
 
 	private void loadUser() {
@@ -102,6 +106,7 @@ public class FileUploadUserService {
 			}
 			USERS = JSON.parseObject(sb.toString(), USERS.getClass());
 		} catch (Exception e) {
+			e.printStackTrace();
 		}
 	}
 
@@ -118,45 +123,46 @@ public class FileUploadUserService {
 		}
 	}
 
-	static class Users {
-		Map<String, User> users = new ConcurrentHashMap<String, User>();
+}
 
-		public Map<String, User> getUsers() {
-			return users;
-		}
+class Users {
+	Map<String, User> users = new ConcurrentHashMap<String, User>();
 
-		public void setUsers(Map<String, User> users) {
-			this.users = users;
-		}
+	public Map<String, User> getUsers() {
+		return users;
 	}
 
-	class User {
-		private String username;
-		private String password;
-		private Set<String> roles = new LinkedHashSet<String>(1);
+	public void setUsers(Map<String, User> users) {
+		this.users = users;
+	}
+}
 
-		public String getUsername() {
-			return username;
-		}
+class User {
+	private String username;
+	private String password;
+	private Set<String> roles = new LinkedHashSet<String>(1);
 
-		public void setUsername(String username) {
-			this.username = username;
-		}
+	public String getUsername() {
+		return username;
+	}
 
-		public String getPassword() {
-			return password;
-		}
+	public void setUsername(String username) {
+		this.username = username;
+	}
 
-		public void setPassword(String password) {
-			this.password = password;
-		}
+	public String getPassword() {
+		return password;
+	}
 
-		public Set<String> getRoles() {
-			return roles;
-		}
+	public void setPassword(String password) {
+		this.password = password;
+	}
 
-		public void setRoles(Set<String> roles) {
-			this.roles = roles;
-		}
+	public Set<String> getRoles() {
+		return roles;
+	}
+
+	public void setRoles(Set<String> roles) {
+		this.roles = roles;
 	}
 }

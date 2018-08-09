@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import net.mooncloud.fileupload.MooncloudResponse;
 import net.mooncloud.fileupload.service.FileUploadUserService;
+import net.mooncloud.fileupload.util.MD5Hash;
 
 @RestController
 @RequestMapping(value = { "/upload/oss/fs/user" })
@@ -50,10 +51,10 @@ public class FileUploadUserController {
 					"用户名或密码均不能为空！");
 
 			if (fileUploadUserService.getUsersCount() == 0) {
-				fileUploadUserService.newUser(username, password, "admin");
+				fileUploadUserService.newUser(username, MD5Hash.digest(password).toString(), "admin");
 			}
 
-			UsernamePasswordToken token = new UsernamePasswordToken(username, password);
+			UsernamePasswordToken token = new UsernamePasswordToken(username, MD5Hash.digest(password).toString());
 			Subject subject = SecurityUtils.getSubject();
 			subject.login(token);
 			subject.getSession().setTimeout(-1000);
@@ -74,12 +75,12 @@ public class FileUploadUserController {
 					"用户名或密码均不能为空！");
 
 			if (fileUploadUserService.getUsersCount() == 0) {
-				fileUploadUserService.newUser(username, password, "admin");
+				fileUploadUserService.newUser(username, MD5Hash.digest(password).toString(), "admin");
 			}
 
-			Assert.isTrue(fileUploadUserService.getPassword(username) == null, "用户名已存在！");
+			Assert.isTrue(fileUploadUserService.getUser(username) == null, "用户名已存在！");
 
-			fileUploadUserService.newUser(username, password, "user");
+			fileUploadUserService.newUser(username, MD5Hash.digest(password).toString(), "user");
 		} catch (Exception e) {
 			mooncloudResponse.setErrorCode(MooncloudResponse.ERROR_CODE);
 			mooncloudResponse.setMsg(e.toString());
@@ -96,9 +97,10 @@ public class FileUploadUserController {
 
 			Assert.isTrue(fileUploadUserService.getUsersCount() > 0, "");
 
-			Assert.isTrue(oldpwd.equals(fileUploadUserService.getPassword(username)), "原密码不正确！");
+			Assert.isTrue(MD5Hash.digest(oldpwd).toString().equals(fileUploadUserService.getPassword(username)),
+					"原密码不正确！");
 
-			fileUploadUserService.newPWD(username, newpwd);
+			fileUploadUserService.newPWD(username, MD5Hash.digest(newpwd).toString());
 		} catch (Exception e) {
 			mooncloudResponse.setErrorCode(MooncloudResponse.ERROR_CODE);
 			mooncloudResponse.setMsg(e.toString());
@@ -116,7 +118,7 @@ public class FileUploadUserController {
 
 			Assert.isTrue(fileUploadUserService.getUsersCount() > 0, "");
 
-			fileUploadUserService.newPWD(username, newpwd);
+			fileUploadUserService.newPWD(username, MD5Hash.digest(newpwd).toString());
 		} catch (Exception e) {
 			mooncloudResponse.setErrorCode(MooncloudResponse.ERROR_CODE);
 			mooncloudResponse.setMsg(e.toString());
@@ -161,10 +163,23 @@ public class FileUploadUserController {
 
 	@RequiresRoles("admin")
 	@RequestMapping(value = "/grant", method = { RequestMethod.GET, RequestMethod.POST })
-	public Object grantAdmin(String username, Boolean admin) throws IOException {
+	public Object grant(String username, Boolean admin) throws IOException {
 		MooncloudResponse mooncloudResponse = new MooncloudResponse();
 		try {
 			mooncloudResponse.setBody(fileUploadUserService.grantAdmin(username, admin));
+		} catch (Exception e) {
+			mooncloudResponse.setErrorCode(MooncloudResponse.ERROR_CODE);
+			mooncloudResponse.setMsg(e.toString());
+		}
+		return mooncloudResponse;
+	}
+
+	@RequiresRoles("admin")
+	@RequestMapping(value = "/delete", method = { RequestMethod.GET, RequestMethod.POST })
+	public Object delete(String username) throws IOException {
+		MooncloudResponse mooncloudResponse = new MooncloudResponse();
+		try {
+			mooncloudResponse.setBody(fileUploadUserService.delete(username));
 		} catch (Exception e) {
 			mooncloudResponse.setErrorCode(MooncloudResponse.ERROR_CODE);
 			mooncloudResponse.setMsg(e.toString());
