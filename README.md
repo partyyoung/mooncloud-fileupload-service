@@ -265,6 +265,7 @@ spring.servlet.multipart.max-request-size=-1
 
 ## fs文件管理接口
 | id | 类型 | 接口                       | 说明                    |
+| -- | ---- | -------------------------- | ----------------------- |
 | 1. | GET/POST | [/oss/fs/ls](#ossfsls) | 当前path下的文件和文件夹列表。 |
 | 2. | GET/POST | [/oss/fs/mkdir](#ossfsmkdir) | 在path下创建name的文件夹。 |
 | 3. | GET/POST | [/oss/fs/rm](#ossfsrm) | 删除单个文件或文件夹。 |
