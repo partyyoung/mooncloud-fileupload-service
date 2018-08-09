@@ -60,11 +60,6 @@ spring.servlet.multipart.max-request-size=-1
 | 5. | POST | [/oss/upload2http](#ossupload2http) | 多个文件上传到文件服务器的http-root/path下。 |
 | 6. | GET | [/oss/env](#ossenv) | 获取Service环境变量值：fileUploadPath、fileHttpRoot和fileHttpUrl。 |
 | 7. | GET/POST | [/oss/env/update](#ossenvupdate) | 更新Service环境变量值。 |
-| 8. | GET/POST | [/oss/fs/ls](#ossfsls) | 当前path下的文件和文件夹列表。 |
-| 9. | GET/POST | [/oss/fs/mkdir](#ossfsmkdir) | 在path下创建name的文件夹。 |
-| 10. | GET/POST | [/oss/fs/rm](#ossfsrm) | 删除单个文件或文件夹。 |
-| 11. | GET/POST | [/oss/fs/rmr](#ossfsrmr) | 删除多个文件或文件夹。 |
-| 12. | GET/POST | [/oss/fs/chattra](#ossfschattra) | 设置多个文件或文件夹是否可以被删除。 |
 
 ### /oss
 可以作为服务状态接口
@@ -267,6 +262,14 @@ spring.servlet.multipart.max-request-size=-1
 	"success": true
 }
 ```
+
+## fs文件管理接口
+| id | 类型 | 接口                       | 说明                    |
+| 1. | GET/POST | [/oss/fs/ls](#ossfsls) | 当前path下的文件和文件夹列表。 |
+| 2. | GET/POST | [/oss/fs/mkdir](#ossfsmkdir) | 在path下创建name的文件夹。 |
+| 3. | GET/POST | [/oss/fs/rm](#ossfsrm) | 删除单个文件或文件夹。 |
+| 4. | GET/POST | [/oss/fs/rmr](#ossfsrmr) | 删除多个文件或文件夹。 |
+| 5. | GET/POST | [/oss/fs/chattra](#ossfschattra) | 设置多个文件或文件夹是否可以被删除。 |
 
 ### /oss/fs/ls
 path目录下的文件和文件夹列表。
