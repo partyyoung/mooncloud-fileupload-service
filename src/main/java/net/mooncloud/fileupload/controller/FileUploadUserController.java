@@ -80,7 +80,7 @@ public class FileUploadUserController {
 
 			Assert.isTrue(fileUploadUserService.getUser(username) == null, "用户名已存在！");
 
-			fileUploadUserService.newUser(username, MD5Hash.digest(password).toString(), "user");
+			fileUploadUserService.newUser(username, MD5Hash.digest(password).toString());
 		} catch (Exception e) {
 			mooncloudResponse.setErrorCode(MooncloudResponse.ERROR_CODE);
 			mooncloudResponse.setMsg(e.toString());

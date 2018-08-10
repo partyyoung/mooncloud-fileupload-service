@@ -5,6 +5,7 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.Reader;
 import java.io.Writer;
+import java.util.Arrays;
 import java.util.LinkedHashSet;
 import java.util.Map;
 import java.util.Set;
@@ -32,7 +33,7 @@ public class FileUploadUserService {
 		return USERS.users.size();
 	}
 
-	public void newUser(String username, String password, String role) {
+	public void newUser(String username, String password, String... role) {
 		User user;
 		if (USERS.users.containsKey(username)) {
 			user = USERS.users.get(username);
@@ -43,8 +44,10 @@ public class FileUploadUserService {
 		user.setUsername(username);
 		user.setPassword(password);
 
-		Set<String> roles = user.getRoles();
-		roles.add(role);
+		if (role != null && role.length > 0) {
+			Set<String> roles = user.getRoles();
+			roles.addAll(Arrays.asList(role));
+		}
 		saveUser();
 	}
 
