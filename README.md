@@ -29,6 +29,9 @@ spring.servlet.multipart.max-file-size=-1
 spring.servlet.multipart.max-request-size=-1   
 ```
 
+## 管理界面
+服务地址：http://10.10.10.124:12121/fm/index.html
+
 ## APIs
 服务地址：http://10.10.10.124:12121/upload
 
