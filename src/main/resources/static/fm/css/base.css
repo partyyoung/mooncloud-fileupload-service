@@ -1,0 +1,27 @@
+html,body,div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,pre,code,form,fieldset,legend,input,textarea,p,blockquote,th,td, hr,button,article,aside,details,figcaption,figure,footer,header,hgroup,menu,nav,section{margin: 0;padding: 0;}
+ul,ol,dl{list-style: none;}
+a,img{border: none;}
+
+i,b,em,strong{font-style: normal;font-weight:normal;}
+html{touch-action: none;}
+body{
+	font-family: "Helvetica Neue", Helvetica, Arial, "PingFang SC", "Hiragino Sans GB", "Heiti SC", "Microsoft YaHei", "WenQuanYi Micro Hei", sans-serif !important;
+	-webkit-font-smoothing: subpixel-antialiased;
+	overflow: hidden;
+}
+
+
+/*input[disabled]{background: transparent;color: #9f9f9f;-webkit-text-fill-color: #9f9f9f;-webkit-opacity: 1;}*/
+/*input:-ms-input-placeholder{color: #9f9f9f;opacity:1;}
+input::-webkit-input-placeholder{color: #9f9f9f;opacity:1;}
+input{-webkit-tap-highlight-color:transparent;-webkit-user-select:auto;}*/
+
+.clearfix:after {
+    content: " ";
+    display: block;;
+    line-height: 0;
+    height: 0;
+    visibility: hidden;
+    clear: both;
+}
+.hidden{display: none !important;}
