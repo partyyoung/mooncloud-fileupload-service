@@ -29,6 +29,21 @@ spring.servlet.multipart.max-file-size=-1
 spring.servlet.multipart.max-request-size=-1   
 ```
 
+## NGINX
+配置文件服务器的地址，和--file-upload-service.file-http-root一致
+```
+server {
+        listen       80;
+        server_name  localhost;
+
+        location / {
+            root   /data/html;
+            index  index.html index.htm;
+        }
+    }
+```
+
+
 ## 管理界面
 服务地址：http://10.10.10.124:12121/fm/index.html
 
